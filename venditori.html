@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>🔴 DIRETTA VENDITORI — Documenti &amp; Servizi per Vendere Casa | Immobiliare Giancani</title>
+  <script src="diretta_live_project/assets_antonio_fullbody.js"></script>
+  <script src="antonio_fluid_engine.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
+  <style>
+    :root {
+      --accent: #38bdf8;
+      --accent-lt: #bae6fd;
+      --accent-warm: #facc15;
+      --accent-glow: rgba(56, 189, 248, 0.45);
+      --font-head: 'Space Grotesk', 'Montserrat', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body.tema-blu      { --accent: #00d2ff; --accent-lt: #bae6fd; --accent-warm: #facc15; --accent-glow: rgba(0,210,255,0.45); }
+    body.tema-verde    { --accent: #10b981; --accent-lt: #a7f3d0; --accent-warm: #fde047; --accent-glow: rgba(16,185,129,0.45); }
+    body.tema-rosso    { --accent: #fb7185; --accent-lt: #fecdd3; --accent-warm: #fde047; --accent-glow: rgba(244,63,94,0.45); }
+    body.tema-porpora  { --accent: #d946ef; --accent-lt: #f5d0fe; --accent-warm: #fde68a; --accent-glow: rgba(217,70,239,0.45); }
+    body.tema-turchese { --accent: #06b6d4; --accent-lt: #cffafe; --accent-warm: #facc15; --accent-glow: rgba(6,182,212,0.45); }
+    body.tema-tramonto { --accent: #f97316; --accent-lt: #fed7aa; --accent-warm: #fef08a; --accent-glow: rgba(249,115,22,0.45); }
+    body.tema-oro      { --accent: #f59e0b; --accent-lt: #fde68a; --accent-warm: #38bdf8; --accent-glow: rgba(245,158,11,0.45); }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #040814;
+      color: #f8fafc;
+      font-family: var(--font-body);
+      user-select: none;
+    }
+
+    /* 🖼️ SFONDO CONTESTUALE CON SCORRIMENTO PANORAMICO FLUIDO */
+    .bg-scene-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      background: #050a18;
+    }
+
+    .bg-scene-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 100% 50%;
+      opacity: 0.88;
+      filter: brightness(0.78) contrast(1.05);
+      transition: opacity 0.8s ease;
+    }
+
+    @keyframes sellerPanSweep {
+      0%   { object-position: 100% 50%; transform: scale(1.03); }
+      78%  { object-position: 0% 50%;   transform: scale(1.05); }
+      100% { object-position: 50% 50%;  transform: scale(1.03); }
+    }
+
+    .bg-scene-img.pan-active {
+      animation: sellerPanSweep 18s ease-in-out forwards;
+    }
+
+    /* Sfumature morbide senza bordi né riquadri netti */
+    .bg-soft-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(4, 8, 20, 0.80) 0%, rgba(4, 8, 20, 0.22) 18%, rgba(4, 8, 20, 0.28) 65%, rgba(4, 8, 20, 0.92) 100%),
+        linear-gradient(90deg, rgba(4, 8, 20, 0.84) 0%, rgba(4, 8, 20, 0.56) 58%, rgba(4, 8, 20, 0.12) 85%, rgba(4, 8, 20, 0.35) 100%);
+    }
+
+    /* 🏛️ TOP BAR SFUMATA CON LOGO GRANDE SU RIGA SINGOLA PULITA */
+    .seller-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 35;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 18px 14px;
+      background: linear-gradient(180deg, rgba(4, 9, 22, 0.85) 0%, rgba(4, 9, 22, 0.38) 72%, rgba(4, 9, 22, 0) 100%);
+      flex-wrap: nowrap;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .seller-logo-img {
+      height: 50px;
+      width: auto;
+      max-width: 196px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 10px;
+      padding: 4px 9px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+    }
+
+    .live-seller-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      color: #fff;
+      font-family: var(--font-head);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fff;
+      animation: blinkDot 1s infinite alternate;
+    }
+
+    @keyframes blinkDot {
+      from { opacity: 0.4; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1.2); }
+    }
+
+    .top-mode-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    .mode-tab-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #e2e8f0;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+      transition: all 0.25s ease;
+      text-decoration: none;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .mode-tab-btn.active {
+      color: #040814;
+      background: linear-gradient(135deg, var(--accent-warm), #f59e0b);
+      transform: scale(1.04);
+    }
+
+    .audio-pill-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      color: var(--accent-lt);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.26), rgba(56, 189, 248, 0.08));
+    }
+
+    .audio-pill-btn.muted {
+      color: #fecaca;
+      background: linear-gradient(135deg, rgba(185, 28, 28, 0.55), rgba(127, 29, 29, 0.20));
+    }
+
+    /* 📍 BADGE QR SEDE COMPATTO */
+    .seller-qr-badge {
+      position: fixed;
+      top: 86px;
+      right: 16px;
+      z-index: 42;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 9px;
+      max-width: 172px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(8, 14, 30, 0.78), rgba(8, 14, 30, 0.32));
+      backdrop-filter: blur(8px);
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .seller-qr-badge img {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      background: #fff;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+
+    /* 🎭 PALCO CONTENUTI SFUMATO A SINISTRA (ZERO BORDI NETTI, SPAZIO PULITO PER ANTONIO A DESTRA) */
+    .seller-main-stage {
+      position: fixed;
+      top: 84px;
+      left: 22px;
+      right: clamp(305px, 26vw, 365px);
+      bottom: 84px;
+      z-index: 25;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    /* Selettore pillole argomenti in alto al palco */
+    .topic-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .topic-chip {
+      border: none;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #cbd5e1;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.66), rgba(15, 23, 42, 0.24));
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .topic-chip.active {
+      color: #050814;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-lt));
+    }
+
+    /* Card principale sfumata senza bordi */
+    .seller-feature-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 22px 16px 14px;
+      background: linear-gradient(95deg, rgba(6, 11, 26, 0.78) 0%, rgba(6, 11, 26, 0.52) 68%, rgba(6, 11, 26, 0) 100%);
+      border-radius: 18px;
+      overflow-y: auto;
+    }
+
+    .panel-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-head);
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .panel-headline {
+      font-family: var(--font-head);
+      font-size: clamp(20px, 2.5vw, 30px);
+      font-weight: 900;
+      line-height: 1.15;
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+    }
+
+    .doc-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .doc-soft-col {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
+    }
+
+    .doc-col-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--accent-lt);
+      margin-bottom: 6px;
+    }
+
+    .doc-col-body {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #f1f5f9;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.85);
+    }
+
+    .subdoc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .subdoc-tag {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fef08a;
+      background: linear-gradient(90deg, rgba(250, 204, 21, 0.22), rgba(250, 204, 21, 0.05));
+    }
+
+    /* Checklist Interattiva Venditore */
+    .checklist-box {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checklist-box.visible {
+      display: flex;
+    }
+
+    .chk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 8px;
+    }
+
+    .chk-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.03));
+      font-size: 12.5px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .chk-item.checked {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.34), rgba(16, 185, 129, 0.10));
+      color: #d1fae5;
+    }
+
+    .chk-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.16);
+      flex-shrink: 0;
+    }
+
+    .chk-item.checked .chk-badge {
+      background: #10b981;
+      color: #04130d;
+    }
+
+    /* Sottotitolo parlato live */
+    .live-speech-banner {
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, rgba(8, 14, 32, 0.76) 0%, rgba(8, 14, 32, 0.35) 78%, rgba(8, 14, 32, 0) 100%);
+      font-size: 12.5px;
+      line-height: 1.4;
+      color: #e2e8f0;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
+    }
+
+    /* 💬 BARRA INTERATTIVA DOMANDE VENDITORI IN BASSO */
+    .seller-bottom-bar {
+      position: fixed;
+      bottom: 12px;
+      left: 22px;
+      right: clamp(305px, 26vw, 365px);
+      z-index: 35;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px 8px 6px;
+      background: linear-gradient(90deg, rgba(5, 9, 22, 0.76) 0%, rgba(5, 9, 22, 0.45) 70%, rgba(5, 9, 22, 0) 100%);
+      flex-wrap: wrap;
+    }
+
+    .nav-round-btn {
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05));
+      color: #fff;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .seller-chat-form {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .seller-chat-input {
+      flex: 1;
+      height: 36px;
+      border: none;
+      border-radius: 999px;
+      padding: 0 15px;
+      font-size: 12px;
+      color: #fff;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+      outline: none;
+    }
+
+    .seller-chat-input::placeholder { color: #94a3b8; }
+
+    .seller-send-btn {
+      height: 36px;
+      border: none;
+      border-radius: 999px;
+      padding: 0 16px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #050814;
+      background: linear-gradient(135deg, var(--accent-warm), #f59e0b);
+      cursor: pointer;
+    }
+
+    .cta-call-pill {
+      height: 36px;
+      border-radius: 999px;
+      padding: 0 14px;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    /* 🕴️ AVATAR ANTONIO FIGURA INTERA A DESTRA (8 POSE COORDINATE) */
+    #seller-antonio-stage {
+      position: fixed;
+      bottom: 10px;
+      right: 14px;
+      height: min(71vh, 525px);
+      max-height: calc(100vh - 185px);
+      aspect-ratio: 768 / 1376;
+      z-index: 45;
+      pointer-events: auto;
+      cursor: pointer;
+      filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.65));
+    }
+
+    #seller-antonio-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* 📱 RESPONSIVE VERTICALE 9:16 */
+    @media (max-width: 960px), (orientation: portrait) {
+      .seller-logo-img { height: 42px; max-width: 165px; }
+      .seller-qr-badge { display: none; }
+      .seller-main-stage {
+        top: 108px;
+        left: 12px;
+        right: 12px;
+        bottom: 66px;
+      }
+      .seller-feature-panel {
+        margin-right: 112px;
+        padding: 10px 10px 10px 6px;
+      }
+      .doc-detail-grid { grid-template-columns: 1fr; gap: 8px; }
+      .panel-headline { font-size: 18px; }
+      .doc-col-body { font-size: 11.5px; }
+      .seller-bottom-bar {
+        left: 10px;
+        right: 10px;
+        bottom: 8px;
+      }
+      #seller-antonio-stage {
+        right: 4px;
+        bottom: 58px;
+        height: 225px;
+        max-height: 36vh;
+      }
+    }
+  </style>
+</head>
+<body class="tema-blu">
+
+  <!-- 🖼️ SFONDO CONTESTUALE RIGOROSO (Contratti, Planimetrie, Chiavi, Ville) -->
+  <div class="bg-scene-wrap">
+    <img id="seller-bg-img" class="bg-scene-img pan-active"
+         src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop"
+         alt="Consulenza Documentale Immobiliare Giancani">
+  </div>
+  <div class="bg-soft-vignette"></div>
+
+  <!-- 🏛️ BARRA SUPERIORE SFUMATA -->
+  <header class="seller-topbar">
+    <div class="brand-left">
+      <img class="seller-logo-img" src="logo_giancani.png"
+           onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1BoZ_9QyYPRKjZFP__iPr7mmi0aGV0G3P';"
+           alt="Immobiliare Giancani">
+      <div class="live-seller-pill">
+        <span class="live-dot"></span> DIRETTA VENDITORI
+      </div>
+    </div>
+
+    <div class="top-mode-tabs">
+      <button type="button" class="mode-tab-btn active" id="tab-btn-documenti" onclick="switchSellerTab('documenti')">📑 Documenti Vendita (7)</button>
+      <button type="button" class="mode-tab-btn" id="tab-btn-servizi" onclick="switchSellerTab('servizi')">🏆 Servizi Agenzia (6)</button>
+      <button type="button" class="mode-tab-btn" id="tab-btn-checklist" onclick="switchSellerTab('checklist')">✅ Checklist Prontezza</button>
+      <a href="orizzontale.html" class="mode-tab-btn">🏠 Diretta Case 16:9</a>
+      <a href="verticale.html" class="mode-tab-btn">📱 Diretta 9:16</a>
+      <button type="button" class="audio-pill-btn" id="seller-audio-btn" onclick="toggleSellerAudio()">🔊 VOCE ATTIVA</button>
+    </div>
+  </header>
+
+  <!-- 📍 QR COMPATTO SEDE -->
+  <a class="seller-qr-badge" href="https://maps.app.goo.gl/FqaSkXThPFWNMUgt9" target="_blank" rel="noopener" title="Apri Sede Corso Vittorio Veneto 151 Favara su Google Maps">
+    <img src="qr_sede_giancani.png" onerror="this.onerror=null;this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fmaps.app.goo.gl%2FFqaSkXThPFWNMUgt9';" alt="QR Sede">
+    <div style="font-size:9px; line-height:1.2;">
+      <div style="color:#38bdf8; font-weight:800;">📍 VIENI IN SEDE</div>
+      <div style="font-weight:700;">C.so Vittorio Veneto 151<br>Favara (AG)</div>
+    </div>
+  </a>
+
+  <!-- 🎯 PALCO CENTRALE INTERATTIVO -->
+  <main class="seller-main-stage">
+    <div class="topic-strip" id="seller-topic-strip"></div>
+
+    <section class="seller-feature-panel" id="seller-card-view">
+      <div id="standard-topic-content" style="display:flex; flex-direction:column; gap:12px;">
+        <div class="panel-kicker" id="card-kicker">📑 DOCUMENTO 1 DI 7 • GUIDA PER IL PROPRIETARIO</div>
+        <h1 class="panel-headline" id="card-title">Atto di Provenienza dell'Immobile</h1>
+
+        <div class="doc-detail-grid">
+          <div class="doc-soft-col">
+            <div class="doc-col-title" id="col1-label">🎯 A cosa serve e perché è richiesto</div>
+            <div class="doc-col-body" id="col1-text"></div>
+          </div>
+          <div class="doc-soft-col">
+            <div class="doc-col-title" id="col2-label">🛠️ Documenti necessari per ottenerlo o realizzarlo</div>
+            <div class="doc-col-body" id="col2-text"></div>
+            <div class="subdoc-tags" id="subdoc-tags"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modalità Checklist Interattiva -->
+      <div class="checklist-box" id="checklist-content">
+        <div class="panel-kicker">✅ CHECKLIST INTERATTIVA DEL VENDITORE</div>
+        <h2 class="panel-headline" id="chk-score-title">Seleziona i documenti che hai già a casa (0 su 7 pronti)</h2>
+        <p style="font-size:12.5px; color:#cbd5e1;">Spunta quelli già in tuo possesso: per tutto ciò che manca pensiamo direttamente noi in Agenzia Immobiliare Giancani!</p>
+        <div class="chk-grid" id="chk-items-grid"></div>
+      </div>
+    </section>
+
+    <div class="live-speech-banner" id="seller-speech-subtitle">
+      Benvenuti nella Diretta Venditori! Scopriamo insieme tutti i documenti per vendere casa in totale sicurezza e i servizi esclusivi — Immobiliare Giancani
+    </div>
+  </main>
+
+  <!-- 💬 BARRA DOMANDE DIRETTA VENDITORI -->
+  <footer class="seller-bottom-bar">
+    <button type="button" class="nav-round-btn" onclick="stepSellerTopic(-1)" title="Precedente">&#9664;</button>
+    <button type="button" class="nav-round-btn" onclick="stepSellerTopic(1)" title="Successivo">&#9654;</button>
+
+    <form class="seller-chat-form" onsubmit="event.preventDefault(); askSellerAdvisor();">
+      <input type="text" id="seller-question-input" class="seller-chat-input"
+             placeholder="Fai una domanda da proprietario (es. APE, planimetria, successione, mutuo, valutazione, servizi)..."
+             autocomplete="off">
+      <button type="submit" class="seller-send-btn">💬 Chiedi ad Antonio</button>
+    </form>
+
+    <a href="tel:3201667156" class="cta-call-pill">📞 320 166 7156</a>
+  </footer>
+
+  <!-- 🕴️ ANTONIO A FIGURA INTERA (8 POSE UMANE COORDINATE) -->
+  <div id="seller-antonio-stage" onclick="nextTopicOnAvatarClick()" title="Clicca Antonio per passare al prossimo consiglio per venditori">
+    <canvas id="seller-antonio-canvas"></canvas>
+  </div>
+
+  <script>
+  (function() {
+    'use strict';
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // 📚 CATALOGO COMPLETO DOCUMENTI VENDITA + SOTTO-DOCUMENTI PER REALIZZARLI
+    // ═══════════════════════════════════════════════════════════════════════════
+    const DOCUMENTI_VENDITA = [
+      {
+        chip: '1. Atto Provenienza',
+        kicker: '📑 DOCUMENTO 1 DI 7 • TITOLARITÀ LEGALE',
+        title: 'Atto di Provenienza (Rogito, Successione o Donazione)',
+        col1Title: '🎯 A cosa serve nella vendita',
+        col1Text: 'Certifica chi è il legittimo proprietario dell’immobile, come ne è entrato in possesso e se esistono vincoli, servitù o diritti di terzi da rispettare fino al rogito notarile.',
+        col2Title: '🛠️ Documenti necessari per reperirlo o regolarizzarlo',
+        col2Text: 'Se non trovi la copia cartacea, la recuperiamo presso lo Studio Notarile o l’Archivio Notarile. In caso di eredità serve la Dichiarazione di Successione registrata e l’accettazione tacita.',
+        tags: ['Estremi Notaio e Data Atto', 'Dichiarazione di Successione', 'Voltura Catastale', 'Codice Fiscale Proprietari'],
+        img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop',
+        pose: 'welcome_open',
+        speech: 'Benvenuti cari proprietari! Il primo documento fondamentale per mettere in vendita il vostro immobile è l’Atto di Provenienza, cioè il rogito notarile, la successione o la donazione. Serve a dimostrare con certezza la piena proprietà. Se lo avete smarrito, bastano documento d’identità ed estremi catastali per richiederne copia autentica in Archivio Notarile o in Conservatoria — Immobiliare Giancani'
+      },
+      {
+        chip: '2. Planimetria & Visura',
+        kicker: '📐 DOCUMENTO 2 DI 7 • CATASTO E SUPERFICIE',
+        title: 'Visura Storica e Planimetria Catastale Ufficiale',
+        col1Title: '🎯 A cosa serve nella vendita',
+        col1Text: 'Indica foglio, particella, subalterno, rendita catastale, consistenza in metri quadri e disposizione grafica dei vani. Al rogito il venditore deve dichiarare che la planimetria corrisponde allo stato reale.',
+        col2Title: '🛠️ Documenti necessari per richiederla o aggiornarla',
+        col2Text: 'Per estrarre la planimetria rasterizzata dal Catasto occorrono delega firmata e documento del proprietario. Se i tramezzi interni sono cambiati, un tecnico redige l’aggiornamento DOCFA.',
+        tags: ['Delega Firmata Proprietario', 'Carta d’Identità e Codice Fiscale', 'Rilievo Metri Quadri Reali', 'Pratica DOCFA se variata'],
+        img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1600&auto=format&fit=crop',
+        pose: 'explain_points',
+        speech: 'Il secondo pilastro è composto da Visura Storica e Planimetria Catastale. Servono a verificare i dati fiscali, la superficie in metri quadri e l’esatta distribuzione interna delle stanze. Per ottenerle subito dal portale telematico bastano una semplice delega e il vostro documento d’identità — Immobiliare Giancani'
+      },
+      {
+        chip: '3. Conformità Urbanistica',
+        kicker: '🏛️ DOCUMENTO 3 DI 7 • REGOLARITÀ EDILIZIA & AGIBILITÀ',
+        title: 'Titoli Edilizi, Conformità Urbanistica e Agibilità',
+        col1Title: '🎯 A cosa serve nella vendita',
+        col1Text: 'È la garanzia più importante: dimostra che il fabbricato è stato costruito o ristrutturato con regolare Licenza, Concessione Edilizia, Permesso di Costruire, CILA, SCIA o Concessione in Sanatoria.',
+        col2Title: '🛠️ Documenti necessari per realizzarla',
+        col2Text: 'Occorre fare un Accesso agli Atti presso l’Ufficio Tecnico del Comune tramite delega a un tecnico abilitato, confrontando il progetto depositato con i metri quadri e i prospetti attuali.',
+        tags: ['Delega Accesso Atti Comune', 'Precedenti Licenze / Sanatorie', 'Certificato di Agibilità / SCA', 'Relazione Tecnica Integrata'],
+        img: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=1600&auto=format&fit=crop',
+        pose: 'present_left',
+        speech: 'Terzo documento decisivo: la Conformità Urbanistica ed Edilizia insieme al Certificato di Agibilità. Serve a garantire all’acquirente e alla banca erogatrice del mutuo l’assenza di abusi edilizi. Per realizzarla richiediamo l’accesso agli atti in Comune con delega del proprietario e rilievo tecnico accurato — Immobiliare Giancani'
+      },
+      {
+        chip: '4. Attestato APE',
+        kicker: '⚡ DOCUMENTO 4 DI 7 • EFFICIENZA ENERGETICA OBBLIGATORIA',
+        title: 'APE — Attestato di Prestazione Energetica',
+        col1Title: '🎯 A cosa serve nella vendita',
+        col1Text: 'È obbligatorio per legge sin dal primo giorno di pubblicazione degli annunci immobiliari e va allegato all’atto notarile di compravendita, indicando la classe energetica dalla A4 alla G.',
+        col2Title: '🛠️ Documenti necessari per realizzarlo',
+        col2Text: 'Per redigere un nuovo APE valido 10 anni il tecnico certificatore necessita di planimetria catastale, visura, anno di costruzione, dati degli infissi e soprattutto del Libretto Impianto della caldaia.',
+        tags: ['Libretto Caldaia / Climatizzatori', 'Controllo Fumi Aggiornato', 'Planimetria e Visura Catastale', 'Sopralluogo Certificatore'],
+        img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop',
+        pose: 'gesturing',
+        speech: 'Quarto documento: l’Attestato di Prestazione Energetica, detto APE. È obbligatorio sia per promuovere correttamente l’annuncio sia per firmare dal notaio. Per farlo realizzare rapidamente dal nostro tecnico convenzionato servono visura, planimetria catastale e il libretto dell’impianto termico o caldaia — Immobiliare Giancani'
+      },
+      {
+        chip: '5. Stato Civile & Identità',
+        kicker: '🪪 DOCUMENTO 5 DI 7 • DATI PERSONALI E FIRME',
+        title: 'Documenti d’Identità, Codice Fiscale e Regime Patrimoniale',
+        col1Title: '🎯 A cosa serve nella vendita',
+        col1Text: 'Permette di individuare tutti gli aventi diritto alla firma (comunione o separazione dei beni, comproprietari o coeredi), evitando blocchi dell’ultimo minuto davanti al notaio.',
+        col2Title: '🛠️ Documenti necessari per completarli',
+        col2Text: 'Servono Carta d’Identità in corso di validità, Tessera Sanitaria e, per chi è coniugato o separato, l’Estratto per Riassunto dell’Atto di Matrimonio o il Certificato di Stato Libero.',
+        tags: ['Carta d’Identità Valida', 'Tessera Sanitaria / C.F.', 'Estratto Atto di Matrimonio', 'Eventuale Sentenza Separazione'],
+        img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1600&auto=format&fit=crop',
+        pose: 'confident_close',
+        speech: 'Quinto punto: i documenti anagrafici e di stato civile di tutti i proprietari. Servono a verificare se l’immobile rientra in comunione o separazione dei beni. Basta richiedere in Comune o tramite SPID l’estratto per riassunto dell’atto di matrimonio o il certificato di stato libero — Immobiliare Giancani'
+      },
+      {
+        chip: '6. Mutui & Condominio',
+        kicker: '🏦 DOCUMENTO 6 DI 7 • GARANZIA LIBERTÀ DA PESI',
+        title: 'Situazione Ipotecaria, Estinzione Mutuo e Liberatoria Condominiale',
+        col1Title: '🎯 A cosa serve nella vendita',
+        col1Text: 'Tutela venditore e acquirente dimostrando l’assenza di pignoramenti, ipoteche non note e arretrati condominiali ordinari o straordinari prima della consegna delle chiavi.',
+        col2Title: '🛠️ Documenti necessari per ottenerli',
+        col2Text: 'Effettuiamo una Visura Ipotecaria aggiornata; se c’è un mutuo residuo chiediamo alla banca il Conteggio Estintivo; se in condominio chiediamo all’Amministratore l’Attestazione Spese Pagate.',
+        tags: ['Ispezione Ipotecaria Conservatoria', 'Conteggio Estintivo Banca', 'Liberatoria Amministratore', 'Regolamento Condominiale'],
+        img: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=1600&auto=format&fit=crop',
+        pose: 'explain_points',
+        speech: 'Sesto passaggio: verifica ipotecaria e condominiale. Anche se sulla casa c’è ancora un mutuo in corso si può vendere tranquillamente estinguendolo contestualmente al rogito: basta richiedere alla vostra banca il conteggio estintivo e all’amministratore la liberatoria delle spese condominiali — Immobiliare Giancani'
+      },
+      {
+        chip: '7. Incarico & Stima',
+        kicker: '🤝 DOCUMENTO 7 DI 7 • PARTENZA UFFICIALE SUL MERCATO',
+        title: 'Incarico di Vendita Trasparente e Fascicolo Casa Sicura',
+        col1Title: '🎯 A cosa serve nella vendita',
+        col1Text: 'Raccoglie l’intero fascicolo verificato in un passaporto dell’immobile chiaro e trasparente, definendo prezzo concordato, durata, piano marketing e zero sorprese.',
+        col2Title: '🛠️ Documenti necessari per attivarlo subito',
+        col2Text: 'Una volta raccolti i documenti principali (o firmato il mandato per farli reperire da noi), sottoscriviamo l’incarico, il modulo privacy e antiriciclaggio per lanciare subito la promozione.',
+        tags: ['Valutazione Reale in Metri Quadri', 'Modulo Antiriciclaggio', 'Piano Marketing Multicanale', 'Consegna Chiavi Opzionale'],
+        img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop',
+        pose: 'arms_raised',
+        speech: 'Settimo e ultimo passo: il Fascicolo Casa Sicura con l’Incarico di Vendita trasparente. Con tutti i documenti controllati in anticipo, il vostro immobile diventa immediatamente mutabile, sicuro e veloce da vendere al miglior prezzo di mercato — Immobiliare Giancani'
+      }
+    ];
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // 🏆 CATALOGO SERVIZI ESCLUSIVI AGENZIA IMMOBILIARE GIANCANI
+    // ═══════════════════════════════════════════════════════════════════════════
+    const SERVIZI_GIANCANI = [
+      {
+        chip: '1. Stima Reale',
+        kicker: '🏆 SERVIZIO 1 DI 6 • VALUTAZIONE PROFESSIONALE',
+        title: 'Valutazione Reale e Analisi Comparativa al Metro Quadro',
+        col1Title: '💎 Cosa facciamo per il tuo immobile',
+        col1Text: 'Analizziamo i valori reali di compravenduto a Favara, Agrigento e provincia, calcolando con precisione la superficie commerciale in metri quadri, lo stato manutentivo e l’esposizione.',
+        col2Title: '🚀 Il vantaggio concreto per te venditore',
+        col2Text: 'Eviti di svendere il tuo patrimonio o di lasciarlo fermo per anni fuori mercato: parti subito con il prezzo giusto difendibile in trattativa.',
+        tags: ['Sopralluogo Gratuito', 'Analisi Metri Quadri Reali', 'Report Compravenduto Zona'],
+        img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop',
+        pose: 'welcome_open',
+        speech: 'Scopriamo i servizi esclusivi della nostra agenzia! Partiamo sempre da una valutazione reale e accurata dei metri quadri del vostro immobile a Favara e in tutta la provincia di Agrigento, basata sui valori effettivi di mercato per farvi ottenere il massimo risultato — Immobiliare Giancani'
+      },
+      {
+        chip: '2. Check Documenti',
+        kicker: '🏆 SERVIZIO 2 DI 6 • ZERO PENSIERI BUROCRATICI',
+        title: 'Recupero e Regolarizzazione Completa di Tutti i Documenti',
+        col1Title: '💎 Cosa facciamo per il tuo immobile',
+        col1Text: 'Non hai tempo di andare in Comune, in Catasto o cercare un tecnico per l’APE? Pensiamo a tutto noi coordinando visure, planimetrie, accesso agli atti e certificazioni.',
+        col2Title: '🚀 Il vantaggio concreto per te venditore',
+        col2Text: 'Arrivi alla proposta d’acquisto e al rogito notarile con le carte in regola al cento per cento, azzerando contestazioni o ritardi bancari.',
+        tags: ['Visure e Planimetrie in Sede', 'Tecnici Convenzionati APE', 'Accesso Atti Comunale'],
+        img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1600&auto=format&fit=crop',
+        pose: 'explain_points',
+        speech: 'Secondo servizio molto apprezzato dai nostri clienti venditori: pensiamo noi a tutta la burocrazia! Dal recupero di visure e planimetrie catastali fino all’APE e alle verifiche urbanistiche con tecnici di fiducia — Immobiliare Giancani'
+      },
+      {
+        chip: '3. Foto HD & Video 360°',
+        kicker: '🏆 SERVIZIO 3 DI 6 • VALORIZZAZIONE VISIVA',
+        title: 'Servizio Fotografico Luminoso, Video Tour 4K e Visita 360°',
+        col1Title: '💎 Cosa facciamo per il tuo immobile',
+        col1Text: 'Realizziamo scatti grandangolari luminosi, video emozionali verticali e orizzontali e tour virtuali interattivi che esaltano ogni singolo ambiente e i suoi metri quadri.',
+        col2Title: '🚀 Il vantaggio concreto per te venditore',
+        col2Text: 'Il tuo immobile spicca immediatamente rispetto agli annunci amatoriali e attira clienti realmente colpiti dalla casa già prima della visita fisica.',
+        tags: ['Fotografia Grandangolare HD', 'Video Reels & YouTube', 'Virtual Tour Interattivo'],
+        img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop',
+        pose: 'present_left',
+        speech: 'Terzo servizio: valorizzazione visiva di altissimo livello! Realizziamo foto luminose ad alta definizione, riprese video emozionali e tour virtuali a trecentosessanta gradi per far innamorare gli acquirenti fin dal primo sguardo — Immobiliare Giancani'
+      },
+      {
+        chip: '4. Diretta TV & Social H24',
+        kicker: '🏆 SERVIZIO 4 DI 6 • INNOVAZIONE ESCLUSIVA GIANCANI',
+        title: 'Dirette TV Interattive H24, Social Media e Portali Nazionali',
+        col1Title: '💎 Cosa facciamo per il tuo immobile',
+        col1Text: 'Siamo pionieri con la nostra TV Immobiliare interattiva in diretta, unita a campagne costanti su Facebook, Instagram, Threads, YouTube, TikTok, Sito Ufficiale e portali.',
+        col2Title: '🚀 Il vantaggio concreto per te venditore',
+        col2Text: 'Massima visibilità continua sia locale sia verso acquirenti fuori sede o all’estero che cercano casa in Sicilia, 24 ore su 24.',
+        tags: ['TV Live Interattiva 24H', 'Storie & Reels Quotidiani', 'Portali Immobiliari & Banca Dati'],
+        img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop',
+        pose: 'arms_raised',
+        speech: 'Quarto servizio esclusivo: il vostro immobile va in onda nella nostra Diretta TV interattiva ventiquattro ore su ventiquattro, oltre che sui principali portali nazionali e su tutti i nostri canali social ufficiali — Immobiliare Giancani'
+      },
+      {
+        chip: '5. Clienti Qualificati',
+        kicker: '🏆 SERVIZIO 5 DI 6 • SELEZIONE ACQUIRENTI',
+        title: 'Banca Dati Richieste Attive e Pre-Qualifica Finanziaria',
+        col1Title: '💎 Cosa facciamo per il tuo immobile',
+        col1Text: 'Incrociamo subito la tua casa con la nostra lista di acquirenti già profilati e verifichiamo preventivamente la reale capacità di acquisto o fattibilità di mutuo.',
+        col2Title: '🚀 Il vantaggio concreto per te venditore',
+        col2Text: 'Niente curiosi o perditempo per casa tua: portiamo in visita solo persone realmente motivate e pronte a formulare una proposta concreta.',
+        tags: ['Zero Perditempo', 'Pre-Qualifica Mutuo', 'Report Periodico Visite'],
+        img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1600&auto=format&fit=crop',
+        pose: 'gesturing',
+        speech: 'Quinto servizio: selezione rigorosa degli acquirenti. Prima di fissare appuntamenti nella vostra abitazione qualifichiamo le reali esigenze e la solidità finanziaria del cliente, portandovi solo visite mirate e concrete — Immobiliare Giancani'
+      },
+      {
+        chip: '6. Fino al Rogito',
+        kicker: '🏆 SERVIZIO 6 DI 6 • TUTELA CONTRATTUALE COMPLETA',
+        title: 'Gestione Trattativa, Preliminare Registrato e Assistenza al Rogito',
+        col1Title: '💎 Cosa facciamo per il tuo immobile',
+        col1Text: 'Redigiamo proposte d’acquisto blindate, curiamo la registrazione del contratto preliminare, coordiniamo periti bancari e prepariamo l’intero incartamento per il Notaio.',
+        col2Title: '🚀 Il vantaggio concreto per te venditore',
+        col2Text: 'Vivi la vendita con serenità totale, accompagnato passo dopo passo da Antonio Giancani fino all’incasso dell’assegno circolare al rogito.',
+        tags: ['Proposta & Caparra Tutelata', 'Registrazione Preliminare', 'Presenza Fisica al Rogito'],
+        img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop',
+        pose: 'confident_close',
+        speech: 'Sesto servizio: vi accompagniamo fianco a fianco dalla raccolta della proposta d’acquisto con caparra, alla registrazione del preliminare fino alla firma definitiva dal notaio. Venite a trovarci in Corso Vittorio Veneto 151 a Favara o chiamate il 3201667156 — Immobiliare Giancani'
+      }
+    ];
+
+    let currentMode = 'documenti'; // 'documenti' | 'servizi' | 'checklist'
+    let currentIdx = 0;
+    let audioMuted = false;
+    let isSpeaking = false;
+    let speakGen = 0;
+    let audioPool = [];
+    let autoAdvanceTimer = null;
+    let cloudTtsFailed = false;
+    const checkedDocs = {};
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // 🎙️ MOTORE VOCALE UNIFICATO (IDENTICO A ORIZZONTALE & VERTICALE, ZERO DOPPIE VOCI)
+    // ═══════════════════════════════════════════════════════════════════════════
+    function stopSellerVoice() {
+      speakGen++;
+      while (audioPool.length > 0) {
+        const old = audioPool.pop();
+        if (old) {
+          try { old.onended = null; old.onerror = null; old.onplay = null; old.pause(); old.src = ''; } catch(e) {}
+        }
+      }
+      try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch(e) {}
+      isSpeaking = false;
+    }
+
+    function speakSellerText(rawText, preferredPose, onDone) {
+      stopSellerVoice();
+      const myGen = speakGen;
+
+      let clean = String(rawText || '').replace(/(\d+)\s*(?:mq|m²|m2)\b/gi, '$1 metri quadri');
+      if (!clean.includes('Immobiliare Giancani')) {
+        clean += ' — Immobiliare Giancani';
+      }
+      const subEl = document.getElementById('seller-speech-subtitle');
+      if (subEl) subEl.textContent = clean;
+
+      if (window._sellerRenderer && preferredPose) {
+        window._sellerRenderer.setPose(preferredPose, 0.52);
+      }
+
+      if (audioMuted) {
+        if (typeof onDone === 'function') setTimeout(onDone, 12000);
+        return;
+      }
+
+      const sentences = (clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [clean]).map(s => s.trim()).filter(Boolean);
+      let sIdx = 0;
+
+      function finishSpeech() {
+        if (myGen !== speakGen) return;
+        isSpeaking = false;
+        if (typeof onDone === 'function') onDone();
+      }
+
+      function fetchChunkSrc(seg, mode) {
+        if (mode === 0 && window.location && window.location.protocol !== 'file:' && !cloudTtsFailed) {
+          return Promise.resolve('/tts?voice=it-IT-GiuseppeMultilingualNeural&rate=-1%25&text=' + encodeURIComponent(seg.substring(0, 220)));
+        }
+        return fetch('https://tiktok-tts.weilnet.workers.dev/api/generation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: seg.substring(0, 210), voice: 'it_male_m18' })
+        }).then(r => r.json()).then(j => {
+          if (!j || !j.data) throw new Error('Empty');
+          return 'data:audio/mp3;base64,' + j.data;
+        });
+      }
+
+      function playNext(mode) {
+        if (myGen !== speakGen || audioMuted || sIdx >= sentences.length) {
+          finishSpeech();
+          return;
+        }
+        const curIdx = sIdx++;
+        const seg = sentences[curIdx];
+        fetchChunkSrc(seg, mode).then(src => {
+          if (myGen !== speakGen) return;
+          const a = new Audio(src);
+          audioPool.push(a);
+          let errHandled = false;
+
+          function onFail(errObj) {
+            if (errHandled || myGen !== speakGen) return;
+            errHandled = true;
+            a.onended = null;
+            a.onerror = null;
+            try { a.pause(); a.src = ''; } catch(e) {}
+            if (errObj && errObj.name === 'NotAllowedError') {
+              isSpeaking = false;
+              if (typeof onDone === 'function') setTimeout(onDone, 11000);
+              return;
+            }
+            if (mode === 0) {
+              cloudTtsFailed = true;
+              sIdx = curIdx;
+              playNext(1);
+            } else {
+              finishSpeech();
+            }
+          }
+
+          a.onplay = () => {
+            if (myGen !== speakGen) { try { a.pause(); } catch(e){} return; }
+            isSpeaking = true;
+          };
+          a.onended = () => {
+            if (errHandled || myGen !== speakGen) return;
+            playNext(mode);
+          };
+          a.onerror = () => onFail(null);
+          a.play().catch(err => onFail(err));
+        }).catch(() => {
+          if (myGen !== speakGen) return;
+          if (mode === 0) {
+            cloudTtsFailed = true;
+            sIdx = curIdx;
+            playNext(1);
+          } else {
+            finishSpeech();
+          }
+        });
+      }
+
+      const startMode = (window.location && window.location.protocol !== 'file:' && !cloudTtsFailed) ? 0 : 1;
+      playNext(startMode);
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // 🎬 RENDERING SCHEDE, CHECKLIST E INTERAZIONE LIVE
+    // ═══════════════════════════════════════════════════════════════════════════
+    function getActiveList() {
+      return currentMode === 'servizi' ? SERVIZI_GIANCANI : DOCUMENTI_VENDITA;
+    }
+
+    function renderTopicChips() {
+      const strip = document.getElementById('seller-topic-strip');
+      if (!strip) return;
+      if (currentMode === 'checklist') {
+        strip.innerHTML = '';
+        return;
+      }
+      const list = getActiveList();
+      strip.innerHTML = list.map((item, i) =>
+        `<button type="button" class="topic-chip ${i === currentIdx ? 'active' : ''}" onclick="selectSellerTopic(${i}, true)">${item.chip}</button>`
+      ).join('');
+    }
+
+    function renderChecklist() {
+      const grid = document.getElementById('chk-items-grid');
+      const title = document.getElementById('chk-score-title');
+      if (!grid || !title) return;
+      let count = 0;
+      grid.innerHTML = DOCUMENTI_VENDITA.map((doc, i) => {
+        const isOn = !!checkedDocs[i];
+        if (isOn) count++;
+        return `<div class="chk-item ${isOn ? 'checked' : ''}" onclick="toggleDocCheck(${i})">
+          <span class="chk-badge">${isOn ? '✓' : ''}</span>
+          <span>${doc.chip.replace(/^\d+\.\s*/, '')}</span>
+        </div>`;
+      }).join('');
+      const pct = Math.round((count / DOCUMENTI_VENDITA.length) * 100);
+      title.textContent = `Fascicolo Vendita al ${pct}% (${count} su ${DOCUMENTI_VENDITA.length} documenti già pronti)`;
+    }
+
+    window.toggleDocCheck = function(idx) {
+      checkedDocs[idx] = !checkedDocs[idx];
+      renderChecklist();
+      const readyCount = Object.values(checkedDocs).filter(Boolean).length;
+      const rem = DOCUMENTI_VENDITA.length - readyCount;
+      let msg;
+      if (rem === 0) {
+        msg = 'Complimenti! Hai tutti e sette i documenti pronti: possiamo valutare subito i metri quadri della tua casa e metterla in vendita oggi stesso al 3201667156 — Immobiliare Giancani';
+      } else {
+        msg = `Hai già ${readyCount} documenti pronti su sette! Per gli altri ${rem} documenti mancanti non preoccuparti: ci occupiamo noi in agenzia di recuperarli in Catasto, Comune o tramite tecnico convenzionato — Immobiliare Giancani`;
+      }
+      speakSellerText(msg, rem === 0 ? 'arms_raised' : 'confident_close');
+    };
+
+    window.selectSellerTopic = function(idx, manualClick) {
+      if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+      const list = getActiveList();
+      if (idx < 0) idx = list.length - 1;
+      if (idx >= list.length) idx = 0;
+      currentIdx = idx;
+
+      document.getElementById('standard-topic-content').style.display = 'flex';
+      document.getElementById('checklist-content').classList.remove('visible');
+      renderTopicChips();
+
+      const item = list[idx];
+      document.getElementById('card-kicker').textContent = item.kicker;
+      document.getElementById('card-title').textContent = item.title;
+      document.getElementById('col1-label').textContent = item.col1Title;
+      document.getElementById('col1-text').textContent = item.col1Text;
+      document.getElementById('col2-label').textContent = item.col2Title;
+      document.getElementById('col2-text').textContent = item.col2Text;
+      document.getElementById('subdoc-tags').innerHTML = (item.tags || []).map(t => `<span class="subdoc-tag">✓ ${t}</span>`).join('');
+
+      const bg = document.getElementById('seller-bg-img');
+      if (bg && item.img) {
+        bg.classList.remove('pan-active');
+        bg.src = item.img;
+        void bg.offsetWidth;
+        bg.classList.add('pan-active');
+      }
+
+      const startedAt = Date.now();
+      speakSellerText(item.speech, item.pose, function() {
+        if (!manualClick && currentMode !== 'checklist') {
+          const waitLeft = Math.max(3000, 15000 - (Date.now() - startedAt));
+          autoAdvanceTimer = setTimeout(function() {
+            if (currentIdx + 1 >= list.length) {
+              const nextTab = currentMode === 'documenti' ? 'servizi' : 'documenti';
+              window.switchSellerTab(nextTab, true);
+            } else {
+              window.selectSellerTopic(currentIdx + 1, false);
+            }
+          }, waitLeft);
+        }
+      });
+    };
+
+    window.switchSellerTab = function(mode, fromAutoLoop) {
+      if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+      currentMode = mode;
+      ['documenti', 'servizi', 'checklist'].forEach(m => {
+        const b = document.getElementById('tab-btn-' + m);
+        if (b) b.classList.toggle('active', m === mode);
+      });
+
+      if (mode === 'checklist') {
+        document.getElementById('seller-topic-strip').innerHTML = '';
+        document.getElementById('standard-topic-content').style.display = 'none';
+        document.getElementById('checklist-content').classList.add('visible');
+        renderChecklist();
+        speakSellerText('Ecco la nostra Checklist Interattiva per i proprietari! Tocca i documenti che hai già a casa e scopri subito come ti aiutiamo a completare gratuitamente l’analisi del fascicolo — Immobiliare Giancani', 'explain_points');
+      } else {
+        currentIdx = 0;
+        window.selectSellerTopic(0, !fromAutoLoop ? false : false);
+      }
+    };
+
+    window.stepSellerTopic = function(delta) {
+      if (currentMode === 'checklist') {
+        window.switchSellerTab('documenti');
+        return;
+      }
+      window.selectSellerTopic(currentIdx + delta, true);
+    };
+
+    window.nextTopicOnAvatarClick = function() {
+      window.stepSellerTopic(1);
+    };
+
+    window.toggleSellerAudio = function() {
+      audioMuted = !audioMuted;
+      const btn = document.getElementById('seller-audio-btn');
+      if (audioMuted) {
+        stopSellerVoice();
+        if (btn) { btn.textContent = '🔇 MUTO'; btn.classList.add('muted'); }
+      } else {
+        if (btn) { btn.textContent = '🔊 VOCE ATTIVA'; btn.classList.remove('muted'); }
+        if (currentMode !== 'checklist') window.selectSellerTopic(currentIdx, false);
+      }
+    };
+
+    // Risponditore intelligente domande proprietari venditori
+    window.askSellerAdvisor = function() {
+      const inp = document.getElementById('seller-question-input');
+      if (!inp) return;
+      const qRaw = inp.value.trim();
+      if (!qRaw) return;
+      inp.value = '';
+      const q = qRaw.toLowerCase();
+
+      if (q.includes('ape') || q.includes('energet') || q.includes('caldai')) {
+        currentMode = 'documenti';
+        ['documenti', 'servizi', 'checklist'].forEach(m => document.getElementById('tab-btn-' + m)?.classList.toggle('active', m === 'documenti'));
+        window.selectSellerTopic(3, true);
+        speakSellerText('Ottima domanda! Per realizzare l’Attestato di Prestazione Energetica APE servono visura, planimetria catastale e il libretto della caldaia o climatizzatori con controllo fumi: se non hai un tecnico, lo facciamo redigere rapidamente noi — Immobiliare Giancani', 'explain_points');
+      } else if (q.includes('planimetr') || q.includes('catast') || q.includes('visur') || q.includes('metri')) {
+        currentMode = 'documenti';
+        ['documenti', 'servizi', 'checklist'].forEach(m => document.getElementById('tab-btn-' + m)?.classList.toggle('active', m === 'documenti'));
+        window.selectSellerTopic(1, true);
+        speakSellerText('Per ottenere la Planimetria e la Visura Catastale aggiornata con i metri quadri bastano il tuo documento d’identità e una delega in agenzia: la scarichiamo direttamente noi e verifichiamo che coincida con lo stato dei luoghi — Immobiliare Giancani', 'present_left');
+      } else if (q.includes('succession') || q.includes('eredit') || q.includes('atto') || q.includes('rogit') || q.includes('donazion')) {
+        currentMode = 'documenti';
+        ['documenti', 'servizi', 'checklist'].forEach(m => document.getElementById('tab-btn-' + m)?.classList.toggle('active', m === 'documenti'));
+        window.selectSellerTopic(0, true);
+        speakSellerText('Se l’immobile proviene da eredità o smarrimento dell’atto, ti assistiamo nel reperire copia dell’atto notarile o della dichiarazione di successione con relativa voltura e trascrizione dell’accettazione tacita al rogito — Immobiliare Giancani', 'confident_close');
+      } else if (q.includes('urbanist') || q.includes('abus') || q.includes('verand') || q.includes('sanator') || q.includes('agibilit') || q.includes('comune')) {
+        currentMode = 'documenti';
+        ['documenti', 'servizi', 'checklist'].forEach(m => document.getElementById('tab-btn-' + m)?.classList.toggle('active', m === 'documenti'));
+        window.selectSellerTopic(2, true);
+        speakSellerText('In caso di dubbi urbanistici o piccole difformità interne, tramite accesso agli atti in Comune verifichiamo licenze, concessioni o sanatorie e valutiamo subito con il tecnico la pratica CILA o SCIA prima di andare sul mercato — Immobiliare Giancani', 'explain_points');
+      } else if (q.includes('mutu') || q.includes('ipotec') || q.includes('condomin') || q.includes('spese')) {
+        currentMode = 'documenti';
+        ['documenti', 'servizi', 'checklist'].forEach(m => document.getElementById('tab-btn-' + m)?.classList.toggle('active', m === 'documenti'));
+        window.selectSellerTopic(5, true);
+        speakSellerText('Puoi vendere casa anche con un mutuo ancora attivo! Chiediamo il conteggio estintivo alla tua banca per estinguerlo contestualmente dal notaio, insieme alla liberatoria spese dell’amministratore di condominio — Immobiliare Giancani', 'welcome_open');
+      } else if (q.includes('valut') || q.includes('stima') || q.includes('quanto vale') || q.includes('prezz')) {
+        currentMode = 'servizi';
+        ['documenti', 'servizi', 'checklist'].forEach(m => document.getElementById('tab-btn-' + m)?.classList.toggle('active', m === 'servizi'));
+        window.selectSellerTopic(0, true);
+        speakSellerText('Effettuiamo un sopralluogo gratuito per stimare con precisione i metri quadri e il più alto valore reale di mercato del tuo immobile a Favara e provincia. Chiamaci al 3201667156 — Immobiliare Giancani', 'arms_raised');
+      } else if (q.includes('serviz') || q.includes('agenzi') || q.includes('cosa fate') || q.includes('pubblic')) {
+        window.switchSellerTab('servizi');
+      } else {
+        speakSellerText('Grazie per la tua domanda! In Agenzia Immobiliare Giancani controlliamo preventivamente tutti i documenti della tua casa, curiamo foto, video, dirette live e seguiamo acquirenti qualificati fino al rogito. Chiamaci al 3201667156 o passa in Corso Vittorio Veneto 151 a Favara — Immobiliare Giancani', 'welcome_open');
+      }
+    };
+
+    // Sblocco automatico audio al primo tocco dell'utente se il browser aveva bloccato l'autoplay
+    let unlockedOnce = false;
+    function unlockOnInteraction() {
+      if (unlockedOnce) return;
+      unlockedOnce = true;
+      if (!isSpeaking && !audioMuted && currentMode !== 'checklist') {
+        window.selectSellerTopic(currentIdx, false);
+      }
+    }
+    document.addEventListener('click', unlockOnInteraction, { once: true, passive: true });
+    document.addEventListener('touchstart', unlockOnInteraction, { once: true, passive: true });
+
+    // Rotazione morbida dei temi chiari e vivaci ogni 14 secondi
+    const TEMI = ['blu', 'verde', 'turchese', 'oro', 'porpora', 'tramonto', 'rosso'];
+    let tIdx = 0;
+    setInterval(function() {
+      tIdx = (tIdx + 1) % TEMI.length;
+      TEMI.forEach(t => document.body.classList.remove('tema-' + t));
+      document.body.classList.add('tema-' + TEMI[tIdx]);
+    }, 14000);
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // 🕴️ INIZIALIZZAZIONE AVATAR ANTONIO A FIGURA INTERA CON 8 POSE COORDINATE
+    // ═══════════════════════════════════════════════════════════════════════════
+    function initSellerAvatar() {
+      if (typeof AntonioFluidRenderer === 'undefined') return;
+      const canvas = document.getElementById('seller-antonio-canvas');
+      if (!canvas) return;
+      const renderer = new AntonioFluidRenderer(canvas, { width: 768, height: 1376 });
+      renderer.setArmSwingScale(0.75);
+      renderer.setElbowBendScale(1.05);
+      renderer.updateFacingFromStageX(84);
+
+      const suit = (typeof window.calcolaColoreAbitoDiretta === 'function') ? window.calcolaColoreAbitoDiretta() : 'navy';
+      ['standing', 'walking', 'arms_raised', 'gesturing'].forEach(function(pose) {
+        const url = (typeof window.getAssetAntonioGiancani === 'function')
+          ? window.getAssetAntonioGiancani(pose, suit)
+          : ('assets/antonio_' + pose + '_' + suit + '.webp');
+        renderer.loadPoseSource(pose, url);
+      });
+
+      let lastTs = 0;
+      let lastPoseCycle = 0;
+      let wasSpk = false;
+
+      function tickSeller(ts) {
+        if (!lastTs) lastTs = ts;
+        const dt = Math.min((ts - lastTs) / 1000, 0.05);
+        lastTs = ts;
+
+        if (isSpeaking && !wasSpk) {
+          lastPoseCycle = ts;
+          renderer.setPose('welcome_open', 1.35);
+        } else if (!isSpeaking && wasSpk) {
+          renderer.setPose('neutral_poise', 1.45);
+        } else if (isSpeaking && (ts - lastPoseCycle > 3600)) {
+          lastPoseCycle = ts;
+          if (typeof renderer.nextExpressivePose === 'function') {
+            renderer.nextExpressivePose();
+          }
+        }
+        wasSpk = isSpeaking;
+
+        const t = ts * 0.001;
+        renderer.setBehavioralState({
+          isSpeaking: isSpeaking,
+          speechEnergy: isSpeaking ? 0.80 : 0.08,
+          mouthOpen: isSpeaking ? Math.max(0.08, Math.min(0.88, 0.42 + Math.sin(t * 14.2) * 0.34 + Math.sin(t * 22.5) * 0.18)) : 0,
+          mouthWidth: isSpeaking ? (0.95 + Math.sin(t * 7.4) * 0.10) : 1.0,
+          isWalking: false,
+          walkPhase: 0
+        });
+        renderer.update(dt);
+        renderer.render();
+        requestAnimationFrame(tickSeller);
+      }
+
+      requestAnimationFrame(tickSeller);
+      window._sellerRenderer = renderer;
+    }
+
+    function bootSellerBroadcast() {
+      initSellerAvatar();
+      renderChecklist();
+      window.selectSellerTopic(0, false);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootSellerBroadcast);
+    } else {
+      bootSellerBroadcast();
+    }
+  })();
+  </script>
+</body>
+</html>
