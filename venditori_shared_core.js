@@ -212,11 +212,11 @@
       col1Title: '💎 Cosa facciamo ogni settimana per tenerti informato',
       col1Text: 'Curiamo l’accompagnamento e le informazioni utili ai possibili acquirenti presso la sede ed oltre. Realizziamo un Report immobiliare personalizzato con il conteggio esatto delle visualizzazioni online e delle visite fisiche effettuate.',
       col2Title: '🚀 Reperibilità fisica e telefonica garantita',
-      col2Text: 'Siamo sempre reperibili in orari d’ufficio nella sede di Corso Vittorio Veneto 151 a Favara e ai numeri Tel. 320 166 7156 e Tel. 328 256 0707.',
-      tags: ['Report Visualizzazioni & Visite', 'Accompagnamento Acquirenti', 'Sede Corso Vittorio Veneto 151 Favara', 'Tel. 3201667156 / 3282560707'],
+      col2Text: 'Siamo sempre reperibili in orari d’ufficio nella sede di Corso Vittorio Veneto 151 a Favara e al numero Tel. 320 166 7156.',
+      tags: ['Report Visualizzazioni & Visite', 'Accompagnamento Acquirenti', 'Sede Corso Vittorio Veneto 151 Favara', 'Tel. 320 166 7156'],
       img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1600&auto=format&fit=crop',
       pose: 'gesturing',
-      speech: 'Sesto impegno verso ogni venditore: accompagniamo personalmente e forniamo tutte le informazioni utili ai possibili acquirenti in sede ed oltre, vi consegniamo un report immobiliare personalizzato con visualizzazioni e visite fisiche, e siamo sempre reperibili in Corso Vittorio Veneto 151 a Favara o ai numeri 3201667156 e 3282560707 — Immobiliare Giancani'
+      speech: 'Sesto impegno verso ogni venditore: accompagniamo personalmente e forniamo tutte le informazioni utili ai possibili acquirenti in sede ed oltre, vi consegniamo un report immobiliare personalizzato con visualizzazioni e visite fisiche, e siamo sempre reperibili in Corso Vittorio Veneto 151 a Favara o al numero 3201667156 — Immobiliare Giancani'
     },
     {
       chip: '7. Trattativa fino al Rogito',
