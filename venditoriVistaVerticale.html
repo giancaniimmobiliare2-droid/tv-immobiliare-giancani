@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>📱 DIRETTA VENDITORI 9:16 — Vista Mobile Verticale | Immobiliare Giancani</title>
+  <script src="diretta_live_project/assets_antonio_fullbody.js" defer></script>
+  <script src="antonio_fluid_engine.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
+  <style>
+    :root {
+      --accent: #38bdf8;
+      --accent-lt: #bae6fd;
+      --accent-warm: #facc15;
+      --accent-glow: rgba(56, 189, 248, 0.42);
+      --font-head: 'Space Grotesk', 'Montserrat', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body.tema-blu      { --accent: #00d2ff; --accent-lt: #bae6fd; --accent-warm: #facc15; --accent-glow: rgba(0,210,255,0.42); }
+    body.tema-verde    { --accent: #10b981; --accent-lt: #a7f3d0; --accent-warm: #fde047; --accent-glow: rgba(16,185,129,0.42); }
+    body.tema-rosso    { --accent: #fb7185; --accent-lt: #fecdd3; --accent-warm: #fde047; --accent-glow: rgba(244,63,94,0.42); }
+    body.tema-porpora  { --accent: #d946ef; --accent-lt: #f5d0fe; --accent-warm: #fde68a; --accent-glow: rgba(217,70,239,0.42); }
+    body.tema-turchese { --accent: #06b6d4; --accent-lt: #cffafe; --accent-warm: #facc15; --accent-glow: rgba(6,182,212,0.42); }
+    body.tema-tramonto { --accent: #f97316; --accent-lt: #fed7aa; --accent-warm: #fef08a; --accent-glow: rgba(249,115,22,0.42); }
+    body.tema-oro      { --accent: #f59e0b; --accent-lt: #fde68a; --accent-warm: #38bdf8; --accent-glow: rgba(245,158,11,0.42); }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+      background: #040814;
+      color: #f8fafc;
+      font-family: var(--font-body);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 🖼️ SFONDO PANORAMICO DESTRA -> SINISTRA ANCHE SU VERTICALE */
+    .bg-scene-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .bg-scene-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 92% 50%;
+      filter: brightness(0.40) saturate(1.12);
+      transition: opacity 0.6s ease;
+    }
+    .bg-scene-img.pan-active {
+      animation: verticalPanoramaSweep 18s ease-in-out infinite alternate;
+    }
+    @keyframes verticalPanoramaSweep {
+      0%   { object-position: 96% 50%; transform: scale(1.03); }
+      100% { object-position: 4% 50%; transform: scale(1.07); }
+    }
+    .bg-soft-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(4, 8, 20, 0.90) 0%, rgba(4, 8, 20, 0.36) 24%, rgba(4, 8, 20, 0.42) 58%, rgba(4, 8, 20, 0.95) 100%),
+        radial-gradient(circle at 22% 35%, rgba(4, 8, 20, 0.50), transparent 72%);
+    }
+
+    /* 📱 HEADER COMPATTO NATIVO 9:16 */
+    .v-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 40;
+      padding: 8px 10px 6px;
+      background: linear-gradient(180deg, rgba(4, 8, 20, 0.92) 0%, rgba(4, 8, 20, 0.55) 78%, rgba(4, 8, 20, 0) 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .v-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+      flex-shrink: 1;
+    }
+    .seller-logo-img {
+      height: 30px;
+      max-width: 98px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.96);
+      padding: 2px 6px;
+      border-radius: 8px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+      flex-shrink: 0;
+    }
+    .live-seller-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3.5px 7px;
+      border-radius: 999px;
+      font-size: 8.5px;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(90deg, rgba(220, 38, 38, 0.92), rgba(220, 38, 38, 0.48));
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      animation: livePulse 1.1s infinite;
+    }
+    @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+    .v-quick-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .v-link-pill {
+      padding: 4.5px 7px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 800;
+      color: #e2e8f0;
+      text-decoration: none;
+      background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+      white-space: nowrap;
+    }
+    .audio-pill-btn {
+      border: none;
+      cursor: pointer;
+      padding: 4.5px 8px;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.72), rgba(5, 150, 105, 0.28));
+      white-space: nowrap;
+    }
+    .audio-pill-btn.muted {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.76), rgba(185, 28, 28, 0.34));
+    }
+
+    /* Segmented 3-tab bar */
+    .v-mode-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+    }
+    .mode-tab-btn {
+      border: none;
+      cursor: pointer;
+      padding: 6px 6px;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #f8fafc;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mode-tab-btn.active {
+      background: linear-gradient(135deg, var(--accent-warm), #f59e0b);
+      color: #060914;
+      box-shadow: 0 3px 12px rgba(250, 204, 21, 0.35);
+    }
+
+    /* 🎯 PALCO VERTICALE CENTRALE SCORREVOLE */
+    .v-main-shell {
+      position: fixed;
+      top: 88px;
+      left: 10px;
+      right: 10px;
+      bottom: 62px;
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      overflow: hidden;
+    }
+
+    /* Chip Strip scorrevole orizzontalmente a singolo rigo */
+    .topic-strip {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 2px 2px 4px;
+      scrollbar-width: none;
+      flex-shrink: 0;
+    }
+    .topic-strip::-webkit-scrollbar { display: none; }
+    .topic-chip {
+      border: none;
+      cursor: pointer;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #e2e8f0;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.80), rgba(15, 23, 42, 0.45));
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .topic-chip.active {
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      color: #04101f;
+      font-weight: 900;
+      box-shadow: 0 3px 12px var(--accent-glow);
+    }
+
+    /* Area schede scrollabile con fondo sfumato senza bordi rigidi */
+    .seller-feature-panel {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      padding: 10px 10px 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(6, 11, 26, 0.72) 0%, rgba(6, 11, 26, 0.50) 70%, rgba(6, 11, 26, 0.14) 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .panel-kicker {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+    }
+
+    .panel-headline {
+      font-family: var(--font-head);
+      font-size: clamp(17px, 4.6vw, 22px);
+      font-weight: 800;
+      line-height: 1.15;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+    }
+
+    .doc-detail-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Anteprima documento reale oscurato in cima su 9:16 per visibilità immediata */
+    .doc-preview-card {
+      order: -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: linear-gradient(160deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.42));
+      cursor: zoom-in;
+    }
+    .doc-preview-badge {
+      font-size: 9.5px;
+      font-weight: 900;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: #fde047;
+    }
+    .doc-preview-card img {
+      width: auto;
+      max-width: 100%;
+      height: 158px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    }
+    .doc-preview-caption {
+      font-size: 10px;
+      font-weight: 700;
+      color: #bae6fd;
+    }
+
+    .doc-soft-col {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.02));
+    }
+    .doc-col-title {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--accent-lt);
+      margin-bottom: 4px;
+    }
+    .doc-col-body {
+      font-size: 12.2px;
+      line-height: 1.44;
+      color: #f1f5f9;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+    }
+
+    .subdoc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+      padding-right: 112px;
+    }
+    .subdoc-tag {
+      padding: 3.5px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fef08a;
+      background: linear-gradient(90deg, rgba(250, 204, 21, 0.22), rgba(250, 204, 21, 0.05));
+    }
+
+    /* Checklist Mobile */
+    .checklist-box {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checklist-box.visible { display: flex; }
+    .chk-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .chk-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03));
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .chk-item.checked {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.36), rgba(16, 185, 129, 0.12));
+      color: #d1fae5;
+    }
+    .chk-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.16);
+      flex-shrink: 0;
+    }
+    .chk-item.checked .chk-badge {
+      background: #10b981;
+      color: #04130d;
+    }
+
+    /* Sottotitolo parlato live in basso a sinistra — lascia libero Antonio a destra */
+    .live-speech-banner {
+      flex-shrink: 0;
+      margin-right: 112px;
+      padding: 7px 11px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, rgba(8, 14, 32, 0.84) 0%, rgba(8, 14, 32, 0.45) 85%, rgba(8, 14, 32, 0) 100%);
+      font-size: 11.2px;
+      line-height: 1.35;
+      color: #e2e8f0;
+      max-height: 82px;
+      overflow-y: auto;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    /* 💬 BARRA INTERATTIVA MOBILE IN BASSO */
+    .seller-bottom-bar {
+      position: fixed;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      z-index: 42;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(5, 9, 22, 0.90) 0%, rgba(5, 9, 22, 0.65) 100%);
+    }
+    .nav-round-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05));
+      color: #fff;
+      font-size: 11px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .seller-chat-form {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .seller-chat-input {
+      flex: 1;
+      min-width: 0;
+      height: 34px;
+      border: none;
+      border-radius: 999px;
+      padding: 0 12px;
+      font-size: 11.5px;
+      color: #fff;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+      outline: none;
+    }
+    .seller-chat-input::placeholder { color: #94a3b8; }
+    .seller-send-btn {
+      height: 34px;
+      border: none;
+      border-radius: 999px;
+      padding: 0 11px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #050814;
+      background: linear-gradient(135deg, var(--accent-warm), #f59e0b);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .cta-call-pill {
+      height: 34px;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* 🕴️ ANTONIO FIGURA INTERA IN BASSO A DESTRA SU 9:16 */
+    #seller-antonio-stage {
+      position: fixed;
+      bottom: 58px;
+      right: 2px;
+      height: clamp(165px, 26vh, 232px);
+      aspect-ratio: 768 / 1376;
+      z-index: 36;
+      pointer-events: auto;
+      cursor: pointer;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.72));
+    }
+    #seller-antonio-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Lightbox & Audio Unlock Pill */
+    .doc-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 950;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      cursor: zoom-out;
+    }
+    .doc-lightbox.open, .doc-lightbox.visible { display: flex; }
+    .doc-lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: rgba(15, 23, 42, 0.92);
+      color: #fff;
+      font-family: var(--font-head);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .doc-lightbox img {
+      max-width: 96vw;
+      max-height: 82vh;
+      border-radius: 10px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      background: #fff;
+    }
+
+    .seller-audio-unlock-pill {
+      position: fixed;
+      top: 94px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 620;
+      border: none;
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 900;
+      color: #050814;
+      background: linear-gradient(135deg, #fde047, #f59e0b);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.55);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      animation: pulseUnlock 1.4s infinite alternate;
+    }
+    .seller-audio-unlock-pill.visible { display: inline-flex; }
+    @keyframes pulseUnlock {
+      from { transform: translateX(-50%) scale(1.0); }
+      to   { transform: translateX(-50%) scale(1.05); }
+    }
+  </style>
+</head>
+<body class="tema-blu">
+
+  <!-- 🖼️ SFONDO PANORAMICO CONTESTUALE -->
+  <div class="bg-scene-wrap">
+    <img id="seller-bg-img" class="bg-scene-img pan-active"
+         src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop"
+         alt="Consulenza Documentale Immobiliare Giancani Verticale">
+  </div>
+  <div class="bg-soft-vignette"></div>
+
+  <!-- 📱 TESTATA MOBILE COMPATTA -->
+  <header class="v-header">
+    <div class="v-top-row">
+      <div class="brand-left">
+        <img class="seller-logo-img" src="logo_giancani.png"
+             onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1BoZ_9QyYPRKjZFP__iPr7mmi0aGV0G3P';"
+             alt="Immobiliare Giancani">
+        <div class="live-seller-pill">
+          <span class="live-dot"></span> VENDITORI
+        </div>
+      </div>
+
+      <div class="v-quick-links">
+        <a href="verticale.html" class="v-link-pill" title="Diretta Case 9:16">🏠 Case</a>
+        <a href="venditori.html" class="v-link-pill" title="Apri Vista Desktop 16:9">🖥️ 16:9</a>
+        <button type="button" class="audio-pill-btn" id="seller-audio-btn" onclick="toggleSellerAudio()">🔊 VOCE ATTIVA</button>
+      </div>
+    </div>
+
+    <div class="v-mode-tabs">
+      <button type="button" class="mode-tab-btn active" id="tab-btn-documenti" onclick="switchSellerTab('documenti')">📑 Documenti (7)</button>
+      <button type="button" class="mode-tab-btn" id="tab-btn-servizi" onclick="switchSellerTab('servizi')">🏆 Servizi (6)</button>
+      <button type="button" class="mode-tab-btn" id="tab-btn-checklist" onclick="switchSellerTab('checklist')">✅ Checklist</button>
+    </div>
+  </header>
+
+  <!-- 🎯 PALCO VERTICALE PRINCIPALE -->
+  <main class="v-main-shell">
+    <div class="topic-strip" id="seller-topic-strip"></div>
+
+    <section class="seller-feature-panel" id="seller-card-view">
+      <div id="standard-topic-content" style="display:flex; flex-direction:column; gap:8px;">
+        <div class="panel-kicker" id="card-kicker">📑 DOCUMENTO 1 DI 7 • GUIDA PER IL PROPRIETARIO</div>
+        <h1 class="panel-headline" id="card-title">Atto di Provenienza dell'Immobile</h1>
+
+        <div class="doc-detail-grid with-preview" id="doc-detail-grid">
+          <div class="doc-preview-card" id="doc-preview-card" onclick="apriZoomDocumento()" title="Tocca per ingrandire il documento senza dati sensibili">
+            <span class="doc-preview-badge">🔒 DATI SENSIBILI OSCURATI</span>
+            <img id="doc-preview-img" src="docs_venditori/doc_1_atto.png" alt="Documento reale senza dati sensibili">
+            <span class="doc-preview-caption">🔍 Tocca per ingrandire il documento</span>
+          </div>
+          <div class="doc-soft-col">
+            <div class="doc-col-title" id="col1-label">🎯 A cosa serve e perché è richiesto</div>
+            <div class="doc-col-body" id="col1-text"></div>
+          </div>
+          <div class="doc-soft-col">
+            <div class="doc-col-title" id="col2-label">🛠️ Documenti necessari per ottenerlo o realizzarlo</div>
+            <div class="doc-col-body" id="col2-text"></div>
+            <div class="subdoc-tags" id="subdoc-tags"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modalità Checklist Interattiva -->
+      <div class="checklist-box" id="checklist-content">
+        <div class="panel-kicker">✅ CHECKLIST INTERATTIVA DEL VENDITORE</div>
+        <h2 class="panel-headline" id="chk-score-title">Seleziona i documenti che hai già a casa (0 su 7 pronti)</h2>
+        <p style="font-size:11.5px; color:#cbd5e1;">Spunta quelli già in tuo possesso: per tutto ciò che manca pensiamo direttamente noi in Agenzia Immobiliare Giancani!</p>
+        <div class="chk-grid" id="chk-items-grid"></div>
+      </div>
+    </section>
+
+    <div class="live-speech-banner" id="seller-speech-subtitle">
+      Benvenuti nella Diretta Venditori! Scopriamo insieme tutti i documenti per vendere casa in totale sicurezza — Immobiliare Giancani
+    </div>
+  </main>
+
+  <!-- 💬 BARRA INFERIORE INTERATTIVA 9:16 -->
+  <footer class="seller-bottom-bar">
+    <button type="button" class="nav-round-btn" onclick="stepSellerTopic(-1)" title="Precedente">&#9664;</button>
+    <button type="button" class="nav-round-btn" onclick="stepSellerTopic(1)" title="Successivo">&#9654;</button>
+
+    <form class="seller-chat-form" onsubmit="event.preventDefault(); askSellerAdvisor();">
+      <input type="text" id="seller-question-input" class="seller-chat-input"
+             placeholder="Chiedi (APE, planimetria, mutuo...)" autocomplete="off">
+      <button type="submit" class="seller-send-btn">💬 Chiedi</button>
+    </form>
+
+    <a href="tel:3201667156" class="cta-call-pill" title="Chiama Immobiliare Giancani">📞 Chiama</a>
+  </footer>
+
+  <!-- 🕴️ ANTONIO A FIGURA INTERA (STESSE 8 POSE COORDINATE) -->
+  <div id="seller-antonio-stage" onclick="nextTopicOnAvatarClick()" title="Tocca Antonio per passare al prossimo consiglio">
+    <canvas id="seller-antonio-canvas"></canvas>
+  </div>
+
+  <!-- 🔊 PILL SBLOCCO VOCE SU AUTOPLAY BLOCCATO -->
+  <button type="button" id="seller-audio-unlock-pill" class="seller-audio-unlock-pill" onclick="sbloccaVoceVenditori()">
+    🔊 Tocca qui per attivare la voce di Antonio
+  </button>
+
+  <!-- 🔍 LIGHTBOX SCHERMO INTERO -->
+  <div class="doc-lightbox" id="doc-lightbox" onclick="chiudiZoomDocumento()">
+    <button type="button" class="doc-lightbox-close" onclick="chiudiZoomDocumento()">✕ Chiudi</button>
+    <img id="doc-lightbox-img" src="" alt="Anteprima ingrandita documento senza dati sensibili" onclick="event.stopPropagation()">
+  </div>
+
+  <script>
+    window.VENDITORI_VIEW_CONFIG = {
+      variant: 'vertical',
+      facingX: 82,
+      armSwingScale: 0.72,
+      elbowBendScale: 1.02
+    };
+  </script>
+  <script src="venditori_shared_core.js" defer></script>
+</body>
+</html>
