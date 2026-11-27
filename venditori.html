@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>🔴 DIRETTA VENDITORI — Documenti &amp; Servizi per Vendere Casa | Immobiliare Giancani</title>
-  <script src="diretta_live_project/assets_antonio_fullbody.js"></script>
-  <script src="antonio_fluid_engine.js"></script>
+  <script src="diretta_live_project/assets_antonio_fullbody.js" defer></script>
+  <script src="antonio_fluid_engine.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -294,6 +294,104 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      align-items: stretch;
+    }
+
+    .doc-detail-grid.with-preview {
+      grid-template-columns: 1fr 1fr 250px;
+    }
+
+    .doc-preview-card {
+      padding: 8px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      cursor: zoom-in;
+      transition: transform 0.22s ease;
+    }
+    .doc-preview-card:hover { transform: scale(1.02); }
+    .doc-preview-card img {
+      width: 100%;
+      height: 178px;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 9px;
+      background: #fff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    }
+    .doc-preview-caption {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--accent-warm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .doc-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 950;
+      background: rgba(3, 7, 18, 0.90);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+    .doc-lightbox.open, .doc-lightbox.visible { display: flex; }
+    .doc-lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 999px;
+      padding: 8px 16px;
+      background: rgba(15, 23, 42, 0.88);
+      color: #fff;
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .doc-lightbox img {
+      max-width: min(92vw, 820px);
+      max-height: 86vh;
+      border-radius: 14px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      background: #fff;
+    }
+
+    .seller-audio-unlock-pill {
+      position: fixed;
+      top: 78px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 620;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 900;
+      color: #050814;
+      background: linear-gradient(135deg, #fde047, #f59e0b);
+      box-shadow: 0 8px 28px rgba(245, 158, 11, 0.55);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      animation: pulseUnlock 1.4s infinite alternate;
+    }
+    .seller-audio-unlock-pill.visible { display: inline-flex; }
+    @keyframes pulseUnlock {
+      from { transform: translateX(-50%) scale(1.0); }
+      to   { transform: translateX(-50%) scale(1.05); }
     }
 
     .doc-soft-col {
@@ -505,7 +603,8 @@
         margin-right: 112px;
         padding: 10px 10px 10px 6px;
       }
-      .doc-detail-grid { grid-template-columns: 1fr; gap: 8px; }
+      .doc-detail-grid, .doc-detail-grid.with-preview { grid-template-columns: 1fr; gap: 8px; }
+      .doc-preview-card img { height: 130px; }
       .panel-headline { font-size: 18px; }
       .doc-col-body { font-size: 11.5px; }
       .seller-bottom-bar {
@@ -571,7 +670,7 @@
         <div class="panel-kicker" id="card-kicker">📑 DOCUMENTO 1 DI 7 • GUIDA PER IL PROPRIETARIO</div>
         <h1 class="panel-headline" id="card-title">Atto di Provenienza dell'Immobile</h1>
 
-        <div class="doc-detail-grid">
+        <div class="doc-detail-grid with-preview" id="doc-detail-grid">
           <div class="doc-soft-col">
             <div class="doc-col-title" id="col1-label">🎯 A cosa serve e perché è richiesto</div>
             <div class="doc-col-body" id="col1-text"></div>
@@ -580,6 +679,11 @@
             <div class="doc-col-title" id="col2-label">🛠️ Documenti necessari per ottenerlo o realizzarlo</div>
             <div class="doc-col-body" id="col2-text"></div>
             <div class="subdoc-tags" id="subdoc-tags"></div>
+          </div>
+          <div class="doc-preview-card" id="doc-preview-card" onclick="apriZoomDocumento()" title="Clicca per ingrandire il fac-simile del documento senza dati sensibili">
+            <span class="doc-preview-badge">🔒 DATI SENSIBILI OSCURATI</span>
+            <img id="doc-preview-img" src="docs_venditori/doc_1_atto.png" alt="Fac-simile documento per la vendita senza dati sensibili">
+            <span class="doc-preview-caption">🔍 Clicca per ingrandire fac-simile</span>
           </div>
         </div>
       </div>
@@ -618,6 +722,17 @@
     <canvas id="seller-antonio-canvas"></canvas>
   </div>
 
+  <!-- 🔊 PILL SBLOCCO VOCE SU AUTOPLAY BLOCCATO -->
+  <button type="button" id="seller-audio-unlock-pill" class="seller-audio-unlock-pill" onclick="sbloccaVoceVenditori()">
+    🔊 Tocca qui per attivare la voce di Antonio
+  </button>
+
+  <!-- 🔍 LIGHTBOX ANTEPRIMA DOCUMENTO SENZA DATI SENSIBILI -->
+  <div class="doc-lightbox" id="doc-lightbox" onclick="chiudiZoomDocumento()">
+    <button type="button" class="doc-lightbox-close" onclick="chiudiZoomDocumento()">✕ Chiudi</button>
+    <img id="doc-lightbox-img" src="" alt="Anteprima ingrandita documento senza dati sensibili" onclick="event.stopPropagation()">
+  </div>
+
   <script>
   (function() {
     'use strict';
@@ -636,6 +751,7 @@
         col2Text: 'Se non trovi la copia cartacea, la recuperiamo presso lo Studio Notarile o l’Archivio Notarile. In caso di eredità serve la Dichiarazione di Successione registrata e l’accettazione tacita.',
         tags: ['Estremi Notaio e Data Atto', 'Dichiarazione di Successione', 'Voltura Catastale', 'Codice Fiscale Proprietari'],
         img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop',
+        docPreview: 'docs_venditori/doc_1_atto.png',
         pose: 'welcome_open',
         speech: 'Benvenuti cari proprietari! Il primo documento fondamentale per mettere in vendita il vostro immobile è l’Atto di Provenienza, cioè il rogito notarile, la successione o la donazione. Serve a dimostrare con certezza la piena proprietà. Se lo avete smarrito, bastano documento d’identità ed estremi catastali per richiederne copia autentica in Archivio Notarile o in Conservatoria — Immobiliare Giancani'
       },
@@ -649,6 +765,7 @@
         col2Text: 'Per estrarre la planimetria rasterizzata dal Catasto occorrono delega firmata e documento del proprietario. Se i tramezzi interni sono cambiati, un tecnico redige l’aggiornamento DOCFA.',
         tags: ['Delega Firmata Proprietario', 'Carta d’Identità e Codice Fiscale', 'Rilievo Metri Quadri Reali', 'Pratica DOCFA se variata'],
         img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1600&auto=format&fit=crop',
+        docPreview: 'docs_venditori/doc_2_catasto.png',
         pose: 'explain_points',
         speech: 'Il secondo pilastro è composto da Visura Storica e Planimetria Catastale. Servono a verificare i dati fiscali, la superficie in metri quadri e l’esatta distribuzione interna delle stanze. Per ottenerle subito dal portale telematico bastano una semplice delega e il vostro documento d’identità — Immobiliare Giancani'
       },
@@ -662,6 +779,7 @@
         col2Text: 'Occorre fare un Accesso agli Atti presso l’Ufficio Tecnico del Comune tramite delega a un tecnico abilitato, confrontando il progetto depositato con i metri quadri e i prospetti attuali.',
         tags: ['Delega Accesso Atti Comune', 'Precedenti Licenze / Sanatorie', 'Certificato di Agibilità / SCA', 'Relazione Tecnica Integrata'],
         img: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=1600&auto=format&fit=crop',
+        docPreview: 'docs_venditori/doc_3_urbanistica.png',
         pose: 'present_left',
         speech: 'Terzo documento decisivo: la Conformità Urbanistica ed Edilizia insieme al Certificato di Agibilità. Serve a garantire all’acquirente e alla banca erogatrice del mutuo l’assenza di abusi edilizi. Per realizzarla richiediamo l’accesso agli atti in Comune con delega del proprietario e rilievo tecnico accurato — Immobiliare Giancani'
       },
@@ -675,6 +793,7 @@
         col2Text: 'Per redigere un nuovo APE valido 10 anni il tecnico certificatore necessita di planimetria catastale, visura, anno di costruzione, dati degli infissi e soprattutto del Libretto Impianto della caldaia.',
         tags: ['Libretto Caldaia / Climatizzatori', 'Controllo Fumi Aggiornato', 'Planimetria e Visura Catastale', 'Sopralluogo Certificatore'],
         img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop',
+        docPreview: 'docs_venditori/doc_4_ape.png',
         pose: 'gesturing',
         speech: 'Quarto documento: l’Attestato di Prestazione Energetica, detto APE. È obbligatorio sia per promuovere correttamente l’annuncio sia per firmare dal notaio. Per farlo realizzare rapidamente dal nostro tecnico convenzionato servono visura, planimetria catastale e il libretto dell’impianto termico o caldaia — Immobiliare Giancani'
       },
@@ -688,6 +807,7 @@
         col2Text: 'Servono Carta d’Identità in corso di validità, Tessera Sanitaria e, per chi è coniugato o separato, l’Estratto per Riassunto dell’Atto di Matrimonio o il Certificato di Stato Libero.',
         tags: ['Carta d’Identità Valida', 'Tessera Sanitaria / C.F.', 'Estratto Atto di Matrimonio', 'Eventuale Sentenza Separazione'],
         img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1600&auto=format&fit=crop',
+        docPreview: 'docs_venditori/doc_5_identita.png',
         pose: 'confident_close',
         speech: 'Quinto punto: i documenti anagrafici e di stato civile di tutti i proprietari. Servono a verificare se l’immobile rientra in comunione o separazione dei beni. Basta richiedere in Comune o tramite SPID l’estratto per riassunto dell’atto di matrimonio o il certificato di stato libero — Immobiliare Giancani'
       },
@@ -701,6 +821,7 @@
         col2Text: 'Effettuiamo una Visura Ipotecaria aggiornata; se c’è un mutuo residuo chiediamo alla banca il Conteggio Estintivo; se in condominio chiediamo all’Amministratore l’Attestazione Spese Pagate.',
         tags: ['Ispezione Ipotecaria Conservatoria', 'Conteggio Estintivo Banca', 'Liberatoria Amministratore', 'Regolamento Condominiale'],
         img: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=1600&auto=format&fit=crop',
+        docPreview: 'docs_venditori/doc_6_mutuo_condominio.png',
         pose: 'explain_points',
         speech: 'Sesto passaggio: verifica ipotecaria e condominiale. Anche se sulla casa c’è ancora un mutuo in corso si può vendere tranquillamente estinguendolo contestualmente al rogito: basta richiedere alla vostra banca il conteggio estintivo e all’amministratore la liberatoria delle spese condominiali — Immobiliare Giancani'
       },
@@ -714,6 +835,7 @@
         col2Text: 'Una volta raccolti i documenti principali (o firmato il mandato per farli reperire da noi), sottoscriviamo l’incarico, il modulo privacy e antiriciclaggio per lanciare subito la promozione.',
         tags: ['Valutazione Reale in Metri Quadri', 'Modulo Antiriciclaggio', 'Piano Marketing Multicanale', 'Consegna Chiavi Opzionale'],
         img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop',
+        docPreview: 'docs_venditori/doc_7_incarico.png',
         pose: 'arms_raised',
         speech: 'Settimo e ultimo passo: il Fascicolo Casa Sicura con l’Incarico di Vendita trasparente. Con tutti i documenti controllati in anticipo, il vostro immobile diventa immediatamente mutabile, sicuro e veloce da vendere al miglior prezzo di mercato — Immobiliare Giancani'
       }
@@ -808,24 +930,117 @@
     let audioMuted = false;
     let isSpeaking = false;
     let speakGen = 0;
-    let audioPool = [];
     let autoAdvanceTimer = null;
-    let cloudTtsFailed = false;
+    const isStaticHost = !!(window.location && (
+      window.location.protocol === 'file:' ||
+      window.location.hostname.indexOf('github.io') !== -1
+    ));
+    let cloudTtsFailed = isStaticHost;
+    let sellerAudioUnlocked = false;
+    const masterAudio = new Audio();
+    masterAudio.preload = 'auto';
+    masterAudio.setAttribute('playsinline', '');
+    const SILENT_WAV = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
     const checkedDocs = {};
+
+    function showSellerUnlockPill(show) {
+      const pill = document.getElementById('seller-audio-unlock-pill');
+      if (pill) pill.classList.toggle('visible', !!show && !audioMuted);
+    }
+
+    function unlockSellerMasterAudio() {
+      if (sellerAudioUnlocked) return;
+      sellerAudioUnlocked = true;
+      showSellerUnlockPill(false);
+      try {
+        masterAudio.src = SILENT_WAV;
+        const pr = masterAudio.play();
+        if (pr && typeof pr.catch === 'function') pr.catch(function(){});
+      } catch(e) {}
+      try {
+        if (window.speechSynthesis) window.speechSynthesis.resume();
+      } catch(e) {}
+    }
 
     // ═══════════════════════════════════════════════════════════════════════════
     // 🎙️ MOTORE VOCALE UNIFICATO (IDENTICO A ORIZZONTALE & VERTICALE, ZERO DOPPIE VOCI)
     // ═══════════════════════════════════════════════════════════════════════════
     function stopSellerVoice() {
       speakGen++;
-      while (audioPool.length > 0) {
-        const old = audioPool.pop();
-        if (old) {
-          try { old.onended = null; old.onerror = null; old.onplay = null; old.pause(); old.src = ''; } catch(e) {}
-        }
-      }
+      try {
+        masterAudio.onended = null;
+        masterAudio.onerror = null;
+        masterAudio.onplay = null;
+        masterAudio.pause();
+      } catch(e) {}
       try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch(e) {}
       isSpeaking = false;
+    }
+
+    function splitSellerSpeech(clean) {
+      const rawSentences = (clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [clean]).map(s => s.trim()).filter(Boolean);
+      const chunks = [];
+      rawSentences.forEach(s => {
+        if (s.length <= 195) {
+          chunks.push(s);
+          return;
+        }
+        let rem = s;
+        while (rem.length > 195) {
+          let cut = rem.lastIndexOf(',', 190);
+          if (cut < 60) cut = rem.lastIndexOf(' ', 190);
+          if (cut < 40) cut = 190;
+          chunks.push(rem.slice(0, cut + 1).trim());
+          rem = rem.slice(cut + 1).trim();
+        }
+        if (rem) chunks.push(rem);
+      });
+      return chunks.length ? chunks : [clean];
+    }
+
+    function pickBestItalianVoice() {
+      if (!window.speechSynthesis || !window.speechSynthesis.getVoices) return null;
+      const voices = window.speechSynthesis.getVoices() || [];
+      const itVoices = voices.filter(v => (v.lang || '').toLowerCase().startsWith('it'));
+      if (!itVoices.length) return null;
+      return itVoices.find(v => /giuseppe|cosimo|diego|luca|adriano|male/i.test(v.name))
+        || itVoices.find(v => /google italiano|microsoft/i.test(v.name))
+        || itVoices[0];
+    }
+
+    function playSellerWebSpeechFallback(text, myGen, onDone) {
+      if (myGen !== speakGen || audioMuted || !window.speechSynthesis) {
+        if (myGen === speakGen) { isSpeaking = false; if (typeof onDone === 'function') onDone(); }
+        return false;
+      }
+      try {
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.resume();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'it-IT';
+        u.rate = 0.96;
+        u.pitch = 0.94;
+        const v = pickBestItalianVoice();
+        if (v) u.voice = v;
+        u.onstart = function() {
+          if (myGen === speakGen) isSpeaking = true;
+        };
+        u.onend = function() {
+          if (myGen !== speakGen) return;
+          isSpeaking = false;
+          if (typeof onDone === 'function') onDone();
+        };
+        u.onerror = function() {
+          if (myGen !== speakGen) return;
+          isSpeaking = false;
+          if (typeof onDone === 'function') setTimeout(onDone, 6000);
+        };
+        isSpeaking = true;
+        window.speechSynthesis.speak(u);
+        return true;
+      } catch(e) {
+        return false;
+      }
     }
 
     function speakSellerText(rawText, preferredPose, onDone) {
@@ -848,7 +1063,7 @@
         return;
       }
 
-      const sentences = (clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [clean]).map(s => s.trim()).filter(Boolean);
+      const sentences = splitSellerSpeech(clean);
       let sIdx = 0;
 
       function finishSpeech() {
@@ -858,17 +1073,23 @@
       }
 
       function fetchChunkSrc(seg, mode) {
-        if (mode === 0 && window.location && window.location.protocol !== 'file:' && !cloudTtsFailed) {
-          return Promise.resolve('/tts?voice=it-IT-GiuseppeMultilingualNeural&rate=-1%25&text=' + encodeURIComponent(seg.substring(0, 220)));
+        if (mode === 0 && !isStaticHost && !cloudTtsFailed) {
+          return Promise.resolve('/tts?voice=it-IT-GiuseppeMultilingualNeural&rate=-1%25&text=' + encodeURIComponent(seg.substring(0, 210)));
         }
-        return fetch('https://tiktok-tts.weilnet.workers.dev/api/generation', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: seg.substring(0, 210), voice: 'it_male_m18' })
-        }).then(r => r.json()).then(j => {
-          if (!j || !j.data) throw new Error('Empty');
-          return 'data:audio/mp3;base64,' + j.data;
-        });
+        if (mode === 1) {
+          return fetch('https://tiktok-tts.weilnet.workers.dev/api/generation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: seg.substring(0, 200), voice: 'it_male_m18' })
+          }).then(r => {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          }).then(j => {
+            if (!j || !j.data) throw new Error('Empty');
+            return 'data:audio/mp3;base64,' + j.data;
+          });
+        }
+        return Promise.resolve('https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=it&q=' + encodeURIComponent(seg.substring(0, 180)));
       }
 
       function playNext(mode) {
@@ -880,18 +1101,18 @@
         const seg = sentences[curIdx];
         fetchChunkSrc(seg, mode).then(src => {
           if (myGen !== speakGen) return;
-          const a = new Audio(src);
-          audioPool.push(a);
           let errHandled = false;
 
           function onFail(errObj) {
             if (errHandled || myGen !== speakGen) return;
             errHandled = true;
-            a.onended = null;
-            a.onerror = null;
-            try { a.pause(); a.src = ''; } catch(e) {}
+            masterAudio.onended = null;
+            masterAudio.onerror = null;
+            try { masterAudio.pause(); } catch(e) {}
             if (errObj && errObj.name === 'NotAllowedError') {
               isSpeaking = false;
+              sellerAudioUnlocked = false;
+              showSellerUnlockPill(true);
               if (typeof onDone === 'function') setTimeout(onDone, 11000);
               return;
             }
@@ -899,34 +1120,50 @@
               cloudTtsFailed = true;
               sIdx = curIdx;
               playNext(1);
+            } else if (mode === 1) {
+              sIdx = curIdx;
+              playNext(2);
             } else {
-              finishSpeech();
+              const remaining = sentences.slice(curIdx).join(' ');
+              if (!playSellerWebSpeechFallback(remaining, myGen, onDone)) {
+                finishSpeech();
+              }
             }
           }
 
-          a.onplay = () => {
-            if (myGen !== speakGen) { try { a.pause(); } catch(e){} return; }
+          masterAudio.onplay = () => {
+            if (myGen !== speakGen) { try { masterAudio.pause(); } catch(e){} return; }
             isSpeaking = true;
+            sellerAudioUnlocked = true;
+            showSellerUnlockPill(false);
           };
-          a.onended = () => {
+          masterAudio.onended = () => {
             if (errHandled || myGen !== speakGen) return;
             playNext(mode);
           };
-          a.onerror = () => onFail(null);
-          a.play().catch(err => onFail(err));
+          masterAudio.onerror = () => onFail(null);
+          masterAudio.src = src;
+          const p = masterAudio.play();
+          if (p && typeof p.catch === 'function') p.catch(err => onFail(err));
         }).catch(() => {
           if (myGen !== speakGen) return;
           if (mode === 0) {
             cloudTtsFailed = true;
             sIdx = curIdx;
             playNext(1);
+          } else if (mode === 1) {
+            sIdx = curIdx;
+            playNext(2);
           } else {
-            finishSpeech();
+            const remaining = sentences.slice(curIdx).join(' ');
+            if (!playSellerWebSpeechFallback(remaining, myGen, onDone)) {
+              finishSpeech();
+            }
           }
         });
       }
 
-      const startMode = (window.location && window.location.protocol !== 'file:' && !cloudTtsFailed) ? 0 : 1;
+      const startMode = (!isStaticHost && !cloudTtsFailed) ? 0 : 1;
       playNext(startMode);
     }
 
@@ -1001,6 +1238,21 @@
       document.getElementById('col2-text').textContent = item.col2Text;
       document.getElementById('subdoc-tags').innerHTML = (item.tags || []).map(t => `<span class="subdoc-tag">✓ ${t}</span>`).join('');
 
+      const detailGrid = document.getElementById('doc-detail-grid');
+      const prevCard = document.getElementById('doc-preview-card');
+      const prevImg = document.getElementById('doc-preview-img');
+      if (detailGrid && prevCard && prevImg) {
+        if (item.docPreview) {
+          detailGrid.classList.add('with-preview');
+          prevCard.style.display = 'flex';
+          prevImg.src = item.docPreview;
+          prevImg.alt = item.title + ' — fac-simile senza dati sensibili';
+        } else {
+          detailGrid.classList.remove('with-preview');
+          prevCard.style.display = 'none';
+        }
+      }
+
       const bg = document.getElementById('seller-bg-img');
       if (bg && item.img) {
         bg.classList.remove('pan-active');
@@ -1057,13 +1309,43 @@
       window.stepSellerTopic(1);
     };
 
+    window.apriZoomDocumento = function() {
+      const box = document.getElementById('doc-lightbox');
+      const zoomImg = document.getElementById('doc-lightbox-img');
+      const prevImg = document.getElementById('doc-preview-img');
+      if (box && zoomImg && prevImg && prevImg.src) {
+        zoomImg.src = prevImg.src;
+        zoomImg.alt = prevImg.alt || 'Fac-simile documento senza dati sensibili';
+        box.classList.add('visible');
+      }
+    };
+
+    window.chiudiZoomDocumento = function() {
+      const box = document.getElementById('doc-lightbox');
+      if (box) box.classList.remove('visible');
+    };
+
+    window.sbloccaVoceVenditori = function() {
+      audioMuted = false;
+      const btn = document.getElementById('seller-audio-btn');
+      if (btn) { btn.textContent = '🔊 VOCE ATTIVA'; btn.classList.remove('muted'); }
+      unlockSellerMasterAudio();
+      if (currentMode === 'checklist') {
+        speakSellerText('Voce attiva! Ecco la Checklist Interattiva: seleziona i documenti che hai già disponibili e al resto pensiamo noi — Immobiliare Giancani', 'explain_points');
+      } else {
+        window.selectSellerTopic(currentIdx, true);
+      }
+    };
+
     window.toggleSellerAudio = function() {
       audioMuted = !audioMuted;
       const btn = document.getElementById('seller-audio-btn');
       if (audioMuted) {
         stopSellerVoice();
+        showSellerUnlockPill(false);
         if (btn) { btn.textContent = '🔇 MUTO'; btn.classList.add('muted'); }
       } else {
+        unlockSellerMasterAudio();
         if (btn) { btn.textContent = '🔊 VOCE ATTIVA'; btn.classList.remove('muted'); }
         if (currentMode !== 'checklist') window.selectSellerTopic(currentIdx, false);
       }
@@ -1116,16 +1398,15 @@
     };
 
     // Sblocco automatico audio al primo tocco dell'utente se il browser aveva bloccato l'autoplay
-    let unlockedOnce = false;
     function unlockOnInteraction() {
-      if (unlockedOnce) return;
-      unlockedOnce = true;
-      if (!isSpeaking && !audioMuted && currentMode !== 'checklist') {
+      const wasUnlocked = sellerAudioUnlocked;
+      unlockSellerMasterAudio();
+      if (!wasUnlocked && !isSpeaking && !audioMuted && currentMode !== 'checklist') {
         window.selectSellerTopic(currentIdx, false);
       }
     }
-    document.addEventListener('click', unlockOnInteraction, { once: true, passive: true });
-    document.addEventListener('touchstart', unlockOnInteraction, { once: true, passive: true });
+    document.addEventListener('click', unlockOnInteraction, { capture: true, passive: true });
+    document.addEventListener('touchstart', unlockOnInteraction, { capture: true, passive: true });
 
     // Rotazione morbida dei temi chiari e vivaci ogni 14 secondi
     const TEMI = ['blu', 'verde', 'turchese', 'oro', 'porpora', 'tramonto', 'rosso'];
@@ -1139,8 +1420,11 @@
     // ═══════════════════════════════════════════════════════════════════════════
     // 🕴️ INIZIALIZZAZIONE AVATAR ANTONIO A FIGURA INTERA CON 8 POSE COORDINATE
     // ═══════════════════════════════════════════════════════════════════════════
-    function initSellerAvatar() {
-      if (typeof AntonioFluidRenderer === 'undefined') return;
+    function initSellerAvatar(retryCount) {
+      if (typeof AntonioFluidRenderer === 'undefined') {
+        if ((retryCount || 0) < 60) setTimeout(function() { initSellerAvatar((retryCount || 0) + 1); }, 100);
+        return;
+      }
       const canvas = document.getElementById('seller-antonio-canvas');
       if (!canvas) return;
       const renderer = new AntonioFluidRenderer(canvas, { width: 768, height: 1376 });

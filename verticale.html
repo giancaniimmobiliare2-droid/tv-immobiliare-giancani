@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <script src="diretta_live_project/assets_antonio_fullbody.js"></script>
-  <script src="antonio_fluid_engine.js"></script>
+  <script src="diretta_live_project/assets_antonio_fullbody.js" defer></script>
+  <script src="antonio_fluid_engine.js" defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>🔴 IN ONDA VERTICALE — TV Immobiliare Interattiva | Immobiliare Giancani</title>
@@ -1554,6 +1554,29 @@ window.AVATAR_ROSTER = {
         }
       },
 
+      _getMasterAudio: function() {
+        if (!window._vertMasterAudio) {
+          const el = new Audio();
+          el.preload = 'auto';
+          el.setAttribute('playsinline', '');
+          window._vertMasterAudio = el;
+        }
+        return window._vertMasterAudio;
+      },
+
+      unlockMasterAudio: function() {
+        try {
+          const ma = this._getMasterAudio();
+          if (!window._vertMasterUnlocked) {
+            window._vertMasterUnlocked = true;
+            ma.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+            const pr = ma.play();
+            if (pr && typeof pr.catch === 'function') pr.catch(() => {});
+          }
+          if (window.speechSynthesis) window.speechSynthesis.resume();
+        } catch(e) {}
+      },
+
       stopAudio: function() {
         this._speakGen = (this._speakGen || 0) + 1;
         this._audioPool = this._audioPool || [];
@@ -1563,8 +1586,16 @@ window.AVATAR_ROSTER = {
             try { oldA.onended = null; oldA.onerror = null; oldA.onplay = null; oldA.pause(); oldA.src = ''; } catch(e) {}
           }
         }
+        if (window._vertMasterAudio) {
+          try {
+            window._vertMasterAudio.onended = null;
+            window._vertMasterAudio.onerror = null;
+            window._vertMasterAudio.onplay = null;
+            window._vertMasterAudio.pause();
+          } catch(e) {}
+        }
         if (this._activeNeuralAudio) {
-          try { this._activeNeuralAudio.pause(); this._activeNeuralAudio.src = ''; } catch(e) {}
+          try { this._activeNeuralAudio.pause(); } catch(e) {}
           this._activeNeuralAudio = null;
         }
         try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch(e) {}
@@ -1646,8 +1677,33 @@ window.AVATAR_ROSTER = {
         // Forza la stessa identica voce maschile calda di Antonio su Orizzontale e Verticale
         const isFemaleChar = false;
         const neuralVoice = 'it-IT-GiuseppeMultilingualNeural';
-        const sentences = (cleanText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [cleanText]).map(s => s.trim()).filter(Boolean);
+        const isStaticHost = !!(window.location && (
+          window.location.protocol === 'file:' ||
+          window.location.hostname.indexOf('github.io') !== -1
+        ));
+        if (isStaticHost) window._vertCloudTtsUnavailable = true;
+
+        const splitVertSpeech = (txt) => {
+          const raw = (txt.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [txt]).map(s => s.trim()).filter(Boolean);
+          const out = [];
+          raw.forEach(s => {
+            if (s.length <= 195) { out.push(s); return; }
+            let rem = s;
+            while (rem.length > 195) {
+              let cut = rem.lastIndexOf(',', 190);
+              if (cut < 60) cut = rem.lastIndexOf(' ', 190);
+              if (cut < 40) cut = 190;
+              out.push(rem.slice(0, cut + 1).trim());
+              rem = rem.slice(cut + 1).trim();
+            }
+            if (rem) out.push(rem);
+          });
+          return out.length ? out : [txt];
+        };
+
+        const sentences = splitVertSpeech(cleanText);
         let sIdx = 0;
+        const masterAudio = this._getMasterAudio();
 
         const finishAll = () => {
           if (myGen !== this._speakGen) return;
@@ -1658,16 +1714,50 @@ window.AVATAR_ROSTER = {
           if (typeof onComplete === 'function') onComplete();
         };
 
-        const getAudioSrcForSentence = (seg, mode) => {
-          if (mode === 0 && window.location && window.location.protocol !== 'file:' && !window._vertCloudTtsUnavailable) {
-            return Promise.resolve('/tts?voice=' + encodeURIComponent(neuralVoice) + '&rate=-1%25&text=' + encodeURIComponent(seg.substring(0, 220)));
+        const tryVertWebSpeechFallback = (remainingText) => {
+          if (myGen !== this._speakGen || LiveSyncManager.audioMuted || !window.speechSynthesis) {
+            finishAll();
+            return;
           }
-          if (!isFemaleChar) {
+          try {
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.resume();
+            const u = new SpeechSynthesisUtterance(remainingText);
+            u.lang = 'it-IT';
+            u.rate = 0.96;
+            u.pitch = 0.94;
+            const voices = window.speechSynthesis.getVoices ? (window.speechSynthesis.getVoices() || []) : [];
+            const itVoices = voices.filter(v => (v.lang || '').toLowerCase().startsWith('it'));
+            const best = itVoices.find(v => /giuseppe|cosimo|diego|luca|adriano|male/i.test(v.name)) || itVoices[0];
+            if (best) u.voice = best;
+            u.onstart = () => {
+              if (myGen !== this._speakGen) return;
+              this.isSpeaking = true;
+              if (pipCard) pipCard.classList.add('is-speaking');
+              document.body.classList.add('is-enthusiastic');
+            };
+            u.onend = () => finishAll();
+            u.onerror = () => finishAll();
+            this.isSpeaking = true;
+            window.speechSynthesis.speak(u);
+          } catch(e) {
+            finishAll();
+          }
+        };
+
+        const getAudioSrcForSentence = (seg, mode) => {
+          if (mode === 0 && !isStaticHost && !window._vertCloudTtsUnavailable) {
+            return Promise.resolve('/tts?voice=' + encodeURIComponent(neuralVoice) + '&rate=-1%25&text=' + encodeURIComponent(seg.substring(0, 210)));
+          }
+          if (mode === 1 && !isFemaleChar) {
             return fetch('https://tiktok-tts.weilnet.workers.dev/api/generation', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ text: seg.substring(0, 210), voice: 'it_male_m18' })
-            }).then(r => r.json()).then(j => {
+              body: JSON.stringify({ text: seg.substring(0, 200), voice: 'it_male_m18' })
+            }).then(r => {
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.json();
+            }).then(j => {
               if (!j || !j.data) throw new Error('Empty');
               return 'data:audio/mp3;base64,' + j.data;
             });
@@ -1685,9 +1775,8 @@ window.AVATAR_ROSTER = {
           const seg = sentences[curSentenceIdx];
           getAudioSrcForSentence(seg, mode).then(srcUrl => {
             if (myGen !== this._speakGen) return;
-            const a = new Audio(srcUrl);
+            const a = masterAudio;
             this._activeNeuralAudio = a;
-            this._audioPool.push(a);
 
             let errHandled = false;
             const handleSentenceError = (errObj) => {
@@ -1695,8 +1784,16 @@ window.AVATAR_ROSTER = {
               errHandled = true;
               a.onended = null;
               a.onerror = null;
-              try { a.pause(); a.src = ''; } catch(e) {}
+              try { a.pause(); } catch(e) {}
               if (errObj && errObj.name === 'NotAllowedError') {
+                LiveSyncManager.audioUnlocked = false;
+                window._vertMasterUnlocked = false;
+                const qIcon = document.getElementById('quick-audio-icon');
+                const qLbl = document.getElementById('quick-audio-label');
+                const qBtn = document.getElementById('btn-quick-audio-toggle');
+                if (qIcon) qIcon.innerText = '🔇';
+                if (qLbl) qLbl.innerText = 'TOCCA PER VOCE';
+                if (qBtn) qBtn.classList.add('muted');
                 finishAll();
                 return;
               }
@@ -1704,13 +1801,25 @@ window.AVATAR_ROSTER = {
                 window._vertCloudTtsUnavailable = true;
                 sIdx = curSentenceIdx;
                 playNextSentence(1);
+              } else if (mode === 1) {
+                sIdx = curSentenceIdx;
+                playNextSentence(2);
               } else {
-                finishAll();
+                tryVertWebSpeechFallback(sentences.slice(curSentenceIdx).join(' '));
               }
             };
 
             a.onplay = () => {
               if (myGen !== this._speakGen) { try { a.pause(); } catch(e){} return; }
+              LiveSyncManager.audioUnlocked = true;
+              const qIcon = document.getElementById('quick-audio-icon');
+              const qLbl = document.getElementById('quick-audio-label');
+              const qBtn = document.getElementById('btn-quick-audio-toggle');
+              if (!LiveSyncManager.audioMuted && qBtn) {
+                if (qIcon) qIcon.innerText = '🔊';
+                if (qLbl) qLbl.innerText = 'AUDIO LIVE ON';
+                qBtn.classList.remove('muted');
+              }
               this.isSpeaking = true;
               if (pipCard) pipCard.classList.add('is-speaking');
               document.body.classList.add('is-enthusiastic');
@@ -1720,20 +1829,25 @@ window.AVATAR_ROSTER = {
               playNextSentence(mode);
             };
             a.onerror = () => handleSentenceError(null);
-            a.play().catch((err) => handleSentenceError(err));
+            a.src = srcUrl;
+            const pr = a.play();
+            if (pr && typeof pr.catch === 'function') pr.catch((err) => handleSentenceError(err));
           }).catch(() => {
             if (myGen !== this._speakGen) return;
             if (mode === 0) {
               window._vertCloudTtsUnavailable = true;
               sIdx = curSentenceIdx;
               playNextSentence(1);
+            } else if (mode === 1) {
+              sIdx = curSentenceIdx;
+              playNextSentence(2);
             } else {
-              finishAll();
+              tryVertWebSpeechFallback(sentences.slice(curSentenceIdx).join(' '));
             }
           });
         };
 
-        const startMode = (window.location && window.location.protocol !== 'file:' && !window._vertCloudTtsUnavailable) ? 0 : 1;
+        const startMode = (!isStaticHost && !window._vertCloudTtsUnavailable) ? 0 : 1;
         playNextSentence(startMode);
         return;
       }
@@ -2306,7 +2420,7 @@ window.AVATAR_ROSTER = {
         }
         testoColonnaF = testoColonnaF.replace(/(\d+)\s*(?:mq|m²|m2)\b/gi, '$1 metri quadri');
 
-        if (this.audioUnlocked && !this.audioMuted && this.isAutoHosting) {
+        if (!this.audioMuted && this.isAutoHosting) {
           DariaEngine.speak(testoColonnaF, () => {
             this.onStanzaCompletata();
           });
@@ -2369,12 +2483,13 @@ window.AVATAR_ROSTER = {
         const lbl = document.getElementById('quick-audio-label');
 
         if (this.audioMuted) {
-          try { window.speechSynthesis.cancel(); } catch(e) {}
-          if (DariaEngine._activeNeuralAudio) { try { DariaEngine._activeNeuralAudio.pause(); } catch(e){} }
+          DariaEngine.stopAudio();
           if (icon) icon.innerText = '🔇';
           if (lbl) lbl.innerText = 'AUDIO MUTO';
           if (btn) btn.classList.add('muted');
         } else {
+          this.audioUnlocked = true;
+          DariaEngine.unlockMasterAudio();
           if (icon) icon.innerText = '🔊';
           if (lbl) lbl.innerText = 'AUDIO LIVE ON';
           if (btn) btn.classList.remove('muted');
@@ -2396,16 +2511,36 @@ window.AVATAR_ROSTER = {
         overlay.style.pointerEvents = 'none';
       }
 
-      if (!LiveSyncManager.audioUnlocked) {
-        LiveSyncManager.audioUnlocked = true;
-        try {
-          if (window.speechSynthesis) window.speechSynthesis.resume();
-        } catch(e) {}
+      const wasUnlocked = LiveSyncManager.audioUnlocked && !!window._vertMasterUnlocked;
+      LiveSyncManager.audioUnlocked = true;
+      LiveSyncManager.audioMuted = false;
+      DariaEngine.unlockMasterAudio();
+
+      const qIcon = document.getElementById('quick-audio-icon');
+      const qLbl = document.getElementById('quick-audio-label');
+      const qBtn = document.getElementById('btn-quick-audio-toggle');
+      if (qIcon) qIcon.innerText = '🔊';
+      if (qLbl) qLbl.innerText = 'AUDIO LIVE ON';
+      if (qBtn) qBtn.classList.remove('muted');
+
+      if (!wasUnlocked && !DariaEngine.isSpeaking) {
         console.log("🔊 Audio In Onda Sbloccato con successo!");
-        LiveSyncManager.conduciStanzaCorrente(false);
+        LiveSyncManager.conduciStanzaCorrente(!LiveSyncManager.introDone);
       }
     }
     window.sbloccaAudioDiretta = sbloccaAudioDiretta;
+
+    document.addEventListener('click', function _autoUnlockVert(ev) {
+      if (ev && ev.target && ev.target.closest && ev.target.closest('#btn-quick-audio-toggle')) return;
+      if (!LiveSyncManager.audioUnlocked || !window._vertMasterUnlocked) {
+        sbloccaAudioDiretta();
+      }
+    }, { capture: true, passive: true });
+    document.addEventListener('touchstart', function _autoUnlockVertTouch() {
+      if (!LiveSyncManager.audioUnlocked || !window._vertMasterUnlocked) {
+        sbloccaAudioDiretta();
+      }
+    }, { capture: true, passive: true });
 
     // ═══════════════════════════════════════════════════════════════════════
     // 💬 CHAT DARIA TRASPARENTE
@@ -2511,6 +2646,9 @@ window.AVATAR_ROSTER = {
 
       window.visitaStanzaVerticale = function(queryText) {
         if (!queryText) return;
+        DariaEngine.unlockMasterAudio();
+        LiveSyncManager.audioUnlocked = true;
+        LiveSyncManager.audioMuted = false;
         if (chatInput) chatInput.value = queryText;
         inviaChatInOnda();
       };
@@ -2593,8 +2731,11 @@ window.AVATAR_ROSTER = {
       }
 
       // Inizializza Avatar Antonio a Figura Intera (collo integro) nel riquadro in basso a destra
-      (function initVerticaleFullbody() {
-        if (typeof AntonioFluidRenderer === 'undefined') return;
+      (function initVerticaleFullbody(retryCount) {
+        if (typeof AntonioFluidRenderer === 'undefined') {
+          if ((retryCount || 0) < 60) setTimeout(function() { initVerticaleFullbody((retryCount || 0) + 1); }, 100);
+          return;
+        }
         const canvas = document.getElementById('verticale-antonio-canvas');
         if (!canvas) return;
         const renderer = new AntonioFluidRenderer(canvas, { width: 768, height: 1376 });
