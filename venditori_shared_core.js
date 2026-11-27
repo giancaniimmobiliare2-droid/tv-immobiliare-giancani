@@ -118,90 +118,122 @@
   ];
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // 🏆 CATALOGO SERVIZI ESCLUSIVI AGENZIA IMMOBILIARE GIANCANI
+  // 👋 SALUTO, PRESENTAZIONE AGENZIA & DOPPIA SCELTA VENDITORE IN PRIMO PIANO
+  // ═══════════════════════════════════════════════════════════════════════════
+  const WELCOME_DATA = {
+    kicker: '👋 BENVENUTO DA IMMOBILIARE GIANCANI • FAVARA (AG)',
+    title: 'Ciao! Sono Antonio Giancani. Vuoi vendere casa al meglio e in totale sicurezza?',
+    introText: 'Siamo l’Agenzia Immobiliare Giancani di Corso Vittorio Veneto 151 a Favara: ti affianchiamo con trasparenza, tecnologia interattiva, pubblicità locale e internazionale (in collaborazione anche con UniCredit SubitoCasa) fino al Rogito Notarile. Cosa ti interessa scoprire adesso?',
+    speech: 'Ciao e benvenuto! Sono Antonio Giancani, titolare dell’Agenzia Immobiliare Giancani di Corso Vittorio Veneto 151 a Favara. La nostra missione è farti vendere casa in totale tranquillità, valorizzando ogni singolo metro quadro fino al rogito notarile. Dimmi pure cosa preferisci scoprire per primo: cosa fa Immobiliare Giancani per te e il tuo immobile, oppure tutti i documenti necessari da portare per mettere casa in vendita — Immobiliare Giancani',
+    bg: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop'
+  };
+
+  // Elenco strutturato predisposto per accogliere la lista completa di portali italiani, europei e mondiali
+  const PORTALI_IMMOBILIARI_LISTA = {
+    italiani: ['Sito www.immobiliaregiancani.it', 'Rete Portali Immobiliari Nazionali', 'Portali UniCredit SubitoCasa (www.unicreditosubitocasa.it)'],
+    europei: ['Portali Immobiliari Europei Selezionati (elenco completo in aggiornamento)'],
+    mondiali: ['Circuito Portali Immobiliari Internazionali (elenco completo in aggiornamento)']
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 🏆 CATALOGO COMPLETO SERVIZI IMMOBILIARE GIANCANI + UNICREDIT SUBITOCASA
+  // (Dal documento ufficiale "Richiesta Documenti Immobiliare Giancani")
   // ═══════════════════════════════════════════════════════════════════════════
   const SERVIZI_GIANCANI = [
     {
-      chip: '1. Stima Reale',
-      kicker: '🏆 SERVIZIO 1 DI 6 • VALUTAZIONE PROFESSIONALE',
-      title: 'Valutazione Reale e Analisi Comparativa al Metro Quadro',
-      col1Title: '💎 Cosa facciamo per il tuo immobile',
-      col1Text: 'Analizziamo i valori reali di compravenduto a Favara, Agrigento e provincia, calcolando con precisione la superficie commerciale in metri quadri, lo stato manutentivo e l’esposizione.',
+      chip: '1. Check, Visita & Stima',
+      kicker: '🏆 SERVIZIO 1 DI 7 • VALUTAZIONE, DOCUMENTI & INCARICO',
+      title: 'Controllo Documenti, Visita Fisica, Stima Reale e Incarico',
+      col1Title: '💎 Cosa facciamo per voi fin dal primo giorno',
+      col1Text: 'Eseguiamo il controllo completo della documentazione riguardante l’immobile in vendita, effettuiamo la visita fisica sul posto, elaboriamo la valutazione e stima verbale basata sui metri quadri reali e vi assistiamo nella stipula dell’incarico di vendita.',
       col2Title: '🚀 Il vantaggio concreto per te venditore',
-      col2Text: 'Eviti di svendere il tuo patrimonio o di lasciarlo fermo per anni fuori mercato: parti subito con il prezzo giusto difendibile in trattativa.',
-      tags: ['Sopralluogo Gratuito', 'Analisi Metri Quadri Reali', 'Report Compravenduto Zona'],
+      col2Text: 'Parti sul mercato con prezzo giusto, documentazione già verificata e un incarico chiaro senza alcuna sorpresa fino al rogito.',
+      tags: ['Controllo Documentazione Immobile', 'Visita Fisica in Casa', 'Valutazione & Stima Verbale', 'Assistenza Stipula Incarico'],
       img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop',
       pose: 'welcome_open',
-      speech: 'Scopriamo i servizi esclusivi della nostra agenzia! Partiamo sempre da una valutazione reale e accurata dei metri quadri del vostro immobile a Favara e in tutta la provincia di Agrigento, basata sui valori effettivi di mercato per farvi ottenere il massimo risultato — Immobiliare Giancani'
+      speech: 'Ecco cosa facciamo per voi fin dal primo incontro! Controlliamo tutta la documentazione riguardante il vostro immobile, effettuiamo la visita fisica a casa, formuliamo la valutazione e stima verbale precisa sui metri quadri reali e vi assistiamo nella stipula dell’incarico di vendita — Immobiliare Giancani'
     },
     {
-      chip: '2. Check Documenti',
-      kicker: '🏆 SERVIZIO 2 DI 6 • ZERO PENSIERI BUROCRATICI',
-      title: 'Recupero e Regolarizzazione Completa di Tutti i Documenti',
-      col1Title: '💎 Cosa facciamo per il tuo immobile',
-      col1Text: 'Non hai tempo di andare in Comune, in Catasto o cercare un tecnico per l’APE? Pensiamo a tutto noi coordinando visure, planimetrie, accesso agli atti e certificazioni.',
+      chip: '2. Foto, Tour 360° & Cartello',
+      kicker: '🏆 SERVIZIO 2 DI 7 • IMMAGINE ESCLUSIVA & VALORIZZAZIONE',
+      title: 'Fotografie Esclusive, Virtual Tour 360° e Cartello Vendesi',
+      col1Title: '💎 Cosa facciamo per voi e il vostro immobile',
+      col1Text: 'Realizziamo fotografie dedicate ad uso esclusivo della vendita e il Virtual Tour interattivo a 360 gradi per rendere ancora più interessante l’immobile e i suoi metri quadri. Se consentito dal Venditore, provvediamo anche all’affissione del cartello vendesi.',
       col2Title: '🚀 Il vantaggio concreto per te venditore',
-      col2Text: 'Arrivi alla proposta d’acquisto e al rogito notarile con le carte in regola al cento per cento, azzerando contestazioni o ritardi bancari.',
-      tags: ['Visure e Planimetrie in Sede', 'Tecnici Convenzionati APE', 'Accesso Atti Comunale'],
-      img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1600&auto=format&fit=crop',
-      pose: 'explain_points',
-      speech: 'Secondo servizio molto apprezzato dai nostri clienti venditori: pensiamo noi a tutta la burocrazia! Dal recupero di visure e planimetrie catastali fino all’APE e alle verifiche urbanistiche con tecnici di fiducia — Immobiliare Giancani'
-    },
-    {
-      chip: '3. Foto HD & Video 360°',
-      kicker: '🏆 SERVIZIO 3 DI 6 • VALORIZZAZIONE VISIVA',
-      title: 'Servizio Fotografico Luminoso, Video Tour 4K e Visita 360°',
-      col1Title: '💎 Cosa facciamo per il tuo immobile',
-      col1Text: 'Realizziamo scatti grandangolari luminosi, video emozionali verticali e orizzontali e tour virtuali interattivi che esaltano ogni singolo ambiente e i suoi metri quadri.',
-      col2Title: '🚀 Il vantaggio concreto per te venditore',
-      col2Text: 'Il tuo immobile spicca immediatamente rispetto agli annunci amatoriali e attira clienti realmente colpiti dalla casa già prima della visita fisica.',
-      tags: ['Fotografia Grandangolare HD', 'Video Reels & YouTube', 'Virtual Tour Interattivo'],
+      col2Text: 'Gli acquirenti esplorano ogni ambiente virtualmente da casa propria 24 ore su 24, arrivando alla visita fisica già convinti.',
+      tags: ['Fotografie Uso Esclusivo Vendita', 'Virtual Tour a 360 Gradi', 'Affissione Cartello (se consentito)'],
       img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop',
       pose: 'present_left',
-      speech: 'Terzo servizio: valorizzazione visiva di altissimo livello! Realizziamo foto luminose ad alta definizione, riprese video emozionali e tour virtuali a trecentosessanta gradi per far innamorare gli acquirenti fin dal primo sguardo — Immobiliare Giancani'
+      speech: 'Secondo servizio che realizziamo per voi: scatti fotografici professionali dedicati ad uso esclusivo della vendita e Virtual Tour interattivo a trecentosessanta gradi per far emergere ogni ambiente. E su vostra autorizzazione, affiggiamo anche il cartello vendesi — Immobiliare Giancani'
     },
     {
-      chip: '4. Diretta TV & Social H24',
-      kicker: '🏆 SERVIZIO 4 DI 6 • INNOVAZIONE ESCLUSIVA GIANCANI',
-      title: 'Dirette TV Interattive H24, Social Media e Portali Nazionali',
-      col1Title: '💎 Cosa facciamo per il tuo immobile',
-      col1Text: 'Siamo pionieri con la nostra TV Immobiliare interattiva in diretta, unita a campagne costanti su Facebook, Instagram, Threads, YouTube, TikTok, Sito Ufficiale e portali.',
+      chip: '3. Sito & Tutti i Social',
+      kicker: '🏆 SERVIZIO 3 DI 7 • PRESENZA DIGITALE MULTICANALE',
+      title: 'Pubblicazione su Sito Ufficiale, 5 Canali Social e TV 24H',
+      col1Title: '💎 Cosa facciamo per voi sul web e sui social',
+      col1Text: 'Pubblichiamo immediatamente il vostro immobile sul nostro sito ufficiale www.immobiliaregiancani.it, nelle Dirette TV Interattive e su tutti i nostri 5 canali social ufficiali: Facebook, Telegram, TikTok, YouTube e Instagram.',
       col2Title: '🚀 Il vantaggio concreto per te venditore',
-      col2Text: 'Massima visibilità continua sia locale sia verso acquirenti fuori sede o all’estero che cercano casa in Sicilia, 24 ore su 24.',
-      tags: ['TV Live Interattiva 24H', 'Storie & Reels Quotidiani', 'Portali Immobiliari & Banca Dati'],
+      col2Text: 'Raggiungiamo migliaia di potenziali acquirenti locali e fuori sede ogni giorno tramite Storie, Reels, dirette live e canali dedicati.',
+      tags: ['www.immobiliaregiancani.it', 'Facebook & Instagram', 'TikTok & YouTube', 'Canale Telegram & Diretta TV'],
       img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop',
       pose: 'arms_raised',
-      speech: 'Quarto servizio esclusivo: il vostro immobile va in onda nella nostra Diretta TV interattiva ventiquattro ore su ventiquattro, oltre che sui principali portali nazionali e su tutti i nostri canali social ufficiali — Immobiliare Giancani'
+      speech: 'Terzo punto fondamentale: cosa facciamo per promuovere al massimo la vostra casa! Pubblichiamo sul sito ufficiale immobiliaregiancani.it e su tutti i nostri social: Facebook, Telegram, TikTok, YouTube e Instagram, oltre alla nostra Diretta TV H24 — Immobiliare Giancani'
     },
     {
-      chip: '5. Clienti Qualificati',
-      kicker: '🏆 SERVIZIO 5 DI 6 • SELEZIONE ACQUIRENTI',
-      title: 'Banca Dati Richieste Attive e Pre-Qualifica Finanziaria',
-      col1Title: '💎 Cosa facciamo per il tuo immobile',
-      col1Text: 'Incrociamo subito la tua casa con la nostra lista di acquirenti già profilati e verifichiamo preventivamente la reale capacità di acquisto o fattibilità di mutuo.',
-      col2Title: '🚀 Il vantaggio concreto per te venditore',
-      col2Text: 'Niente curiosi o perditempo per casa tua: portiamo in visita solo persone realmente motivate e pronte a formulare una proposta concreta.',
-      tags: ['Zero Perditempo', 'Pre-Qualifica Mutuo', 'Report Periodico Visite'],
+      chip: '4. Portali Italia, Europa & Mondo',
+      kicker: '🏆 SERVIZIO 4 DI 7 • VISIBILITÀ NAZIONALE E INTERNAZIONALE',
+      title: 'Pubblicità sui Portali Immobiliari Italiani, Europei e Mondiali',
+      col1Title: '💎 Cosa facciamo per voi oltre ogni confine',
+      col1Text: 'Diffondiamo il vostro immobile non solo sui principali portali immobiliari italiani, ma anche su un circuito selezionato di portali immobiliari europei e mondiali per intercettare investitori e famiglie dall’Italia e dall’estero.',
+      col2Title: '🚀 Copertura multilingua & elenco dedicato',
+      col2Text: 'Promozione costante in Italia, Europa e resto del mondo (circuito portali predisposto per visualizzare a breve l’elenco completo dei singoli portali internazionali attivi).',
+      tags: ['Portali Immobiliari Italiani', 'Portali Immobiliari Europei', 'Portali Immobiliari Mondiali', 'Acquirenti Italia & Estero'],
+      img: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1600&auto=format&fit=crop',
+      pose: 'explain_points',
+      speech: 'Quarto servizio esclusivo per chi vende con noi: la pubblicità dell’immobile non resta chiusa in un cassetto, ma va sui vari portali immobiliari italiani, europei e mondiali per raggiungere acquirenti qualificati ovunque si trovino — Immobiliare Giancani'
+    },
+    {
+      chip: '5. UniCredit SubitoCasa',
+      kicker: '🏆 SERVIZIO 5 DI 7 • PARTNERSHIP NAZIONALE UNICREDIT',
+      title: 'Servizi Aggiuntivi in Collaborazione con UniCredit SubitoCasa',
+      col1Title: '💎 Forza congiunta Immobiliare Giancani + UniCredit SubitoCasa',
+      col1Text: 'Grazie alla collaborazione con UniCredit SubitoCasa offriamo reperibilità fisica in tutta Italia tramite i consulenti e le filiali UniCredit SubitoCasa e UniCredit, pubblicazione su www.unicreditosubitocasa.it e sui relativi portali immobiliari.',
+      col2Title: '🚀 Marketing avanzato sui social con cookie commerciali',
+      col2Text: 'Attiviamo inoltre la pubblicazione sui social tramite cookie commerciali mirati verso utenti che cercano attivamente immobili con caratteristiche affini ai tuoi metri quadri.',
+      tags: ['Filiali UniCredit & SubitoCasa Italia', 'www.unicreditosubitocasa.it', 'Portali Partner UniCredit', 'Social tramite Cookie Commerciali'],
+      img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop',
+      pose: 'confident_close',
+      speech: 'Quinto pilastro esclusivo: i servizi aggiuntivi in collaborazione con UniCredit SubitoCasa! Avrete reperibilità fisica in tutta Italia tramite i consulenti e le filiali UniCredit SubitoCasa e UniCredit, pubblicazione sul sito dedicatissimo unicreditosubitocasa.it, sui relativi portali immobiliari e sui social tramite cookie commerciali — Immobiliare Giancani'
+    },
+    {
+      chip: '6. Visite, Sede & Report',
+      kicker: '🏆 SERVIZIO 6 DI 7 • REPERIBILITÀ TOTALE & TRASPARENZA',
+      title: 'Accompagnamento, Report Visite e Presenza Costante in Sede',
+      col1Title: '💎 Cosa facciamo ogni settimana per tenerti informato',
+      col1Text: 'Curiamo l’accompagnamento e le informazioni utili ai possibili acquirenti presso la sede ed oltre. Realizziamo un Report immobiliare personalizzato con il conteggio esatto delle visualizzazioni online e delle visite fisiche effettuate.',
+      col2Title: '🚀 Reperibilità fisica e telefonica garantita',
+      col2Text: 'Siamo sempre reperibili in orari d’ufficio nella sede di Corso Vittorio Veneto 151 a Favara e ai numeri Tel. 320 166 7156 e Tel. 328 256 0707.',
+      tags: ['Report Visualizzazioni & Visite', 'Accompagnamento Acquirenti', 'Sede Corso Vittorio Veneto 151 Favara', 'Tel. 3201667156 / 3282560707'],
       img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1600&auto=format&fit=crop',
       pose: 'gesturing',
-      speech: 'Quinto servizio: selezione rigorosa degli acquirenti. Prima di fissare appuntamenti nella vostra abitazione qualifichiamo le reali esigenze e la solidità finanziaria del cliente, portandovi solo visite mirate e concrete — Immobiliare Giancani'
+      speech: 'Sesto impegno verso ogni venditore: accompagniamo personalmente e forniamo tutte le informazioni utili ai possibili acquirenti in sede ed oltre, vi consegniamo un report immobiliare personalizzato con visualizzazioni e visite fisiche, e siamo sempre reperibili in Corso Vittorio Veneto 151 a Favara o ai numeri 3201667156 e 3282560707 — Immobiliare Giancani'
     },
     {
-      chip: '6. Fino al Rogito',
-      kicker: '🏆 SERVIZIO 6 DI 6 • TUTELA CONTRATTUALE COMPLETA',
-      title: 'Gestione Trattativa, Preliminare Registrato e Assistenza al Rogito',
-      col1Title: '💎 Cosa facciamo per il tuo immobile',
-      col1Text: 'Redigiamo proposte d’acquisto blindate, curiamo la registrazione del contratto preliminare, coordiniamo periti bancari e prepariamo l’intero incartamento per il Notaio.',
-      col2Title: '🚀 Il vantaggio concreto per te venditore',
-      col2Text: 'Vivi la vendita con serenità totale, accompagnato passo dopo passo da Antonio Giancani fino all’incasso dell’assegno circolare al rogito.',
-      tags: ['Proposta & Caparra Tutelata', 'Registrazione Preliminare', 'Presenza Fisica al Rogito'],
-      img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop',
+      chip: '7. Trattativa fino al Rogito',
+      kicker: '🏆 SERVIZIO 7 DI 7 • TUTELA CONTRATTUALE COMPLETA',
+      title: 'Aggiornamento Trattative, Proposte d’Acquisto e Rogito Notarile',
+      col1Title: '💎 Cosa facciamo nella fase più delicata della vendita',
+      col1Text: 'Garantiamo aggiornamento costante appena ci sono acquirenti e durante ogni eventuale trattativa in corso, curiamo la sottoscrizione delle proposte d’acquisto e vi assicuriamo assistenza completa dalla stipula dell’incarico fino al Rogito Notarile.',
+      col2Title: '🚀 Serenità assoluta fino alla consegna chiavi',
+      col2Text: 'Coordiniamo perizie, note bancarie, geometra e notaio affinché incassiate il saldo in totale sicurezza giuridica.',
+      tags: ['Aggiornamento Costante Trattative', 'Sottoscrizione Proposte d’Acquisto', 'Assistenza Fino al Rogito Notarile'],
+      img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop',
       pose: 'confident_close',
-      speech: 'Sesto servizio: vi accompagniamo fianco a fianco dalla raccolta della proposta d’acquisto con caparra, alla registrazione del preliminare fino alla firma definitiva dal notaio. Venite a trovarci in Corso Vittorio Veneto 151 a Favara o chiamate il 3201667156 — Immobiliare Giancani'
+      speech: 'Settimo e decisivo servizio: aggiornamento costante in presenza di acquirenti e durante tutte le trattative in corso, sottoscrizione delle proposte d’acquisto e assistenza completa dalla stipula dell’incarico fino alla firma del Rogito Notarile — Immobiliare Giancani'
     }
   ];
 
-  let currentMode = 'documenti'; // 'documenti' | 'servizi' | 'checklist'
+  let currentMode = 'benvenuto'; // 'benvenuto' | 'documenti' | 'servizi' | 'checklist'
   let currentIdx = 0;
   let audioMuted = false;
   let isSpeaking = false;
@@ -502,13 +534,22 @@
 
   window.selectSellerTopic = function(idx, manualClick) {
     if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+    if (currentMode === 'benvenuto' || currentMode === 'checklist') currentMode = 'documenti';
+    document.body.classList.remove('mode-welcome');
+    ['benvenuto', 'documenti', 'servizi', 'checklist'].forEach(m => {
+      const b = document.getElementById('tab-btn-' + m);
+      if (b) b.classList.toggle('active', m === currentMode);
+    });
+
     const list = getActiveList();
     if (idx < 0) idx = list.length - 1;
     if (idx >= list.length) idx = 0;
     currentIdx = idx;
 
+    const welEl = document.getElementById('seller-welcome-stage');
     const stdEl = document.getElementById('standard-topic-content');
     const chkEl = document.getElementById('checklist-content');
+    if (welEl) welEl.classList.remove('visible');
     if (stdEl) stdEl.style.display = 'flex';
     if (chkEl) chkEl.classList.remove('visible');
     renderTopicChips();
@@ -569,32 +610,61 @@
   window.switchSellerTab = function(mode, fromAutoLoop) {
     if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
     currentMode = mode;
-    ['documenti', 'servizi', 'checklist'].forEach(m => {
+    ['benvenuto', 'documenti', 'servizi', 'checklist'].forEach(m => {
       const b = document.getElementById('tab-btn-' + m);
       if (b) b.classList.toggle('active', m === mode);
     });
+    document.body.classList.toggle('mode-welcome', mode === 'benvenuto');
 
-    if (mode === 'checklist') {
+    const welEl = document.getElementById('seller-welcome-stage');
+    const stdEl = document.getElementById('standard-topic-content');
+    const chkEl = document.getElementById('checklist-content');
+
+    if (mode === 'benvenuto') {
       document.getElementById('seller-topic-strip').innerHTML = '';
-      document.getElementById('standard-topic-content').style.display = 'none';
-      document.getElementById('checklist-content').classList.add('visible');
+      if (stdEl) stdEl.style.display = 'none';
+      if (chkEl) chkEl.classList.remove('visible');
+      if (welEl) welEl.classList.add('visible');
+      const bg = document.getElementById('seller-bg-img');
+      if (bg && WELCOME_DATA.bg) {
+        bg.classList.remove('pan-active');
+        bg.src = WELCOME_DATA.bg;
+        void bg.offsetWidth;
+        bg.classList.add('pan-active');
+      }
+      speakSellerText(WELCOME_DATA.speech, 'welcome_open');
+    } else if (mode === 'checklist') {
+      document.getElementById('seller-topic-strip').innerHTML = '';
+      if (welEl) welEl.classList.remove('visible');
+      if (stdEl) stdEl.style.display = 'none';
+      if (chkEl) chkEl.classList.add('visible');
       renderChecklist();
       speakSellerText('Ecco la nostra Checklist Interattiva per i proprietari! Tocca i documenti che hai già a casa e scopri subito come ti aiutiamo a completare gratuitamente l’analisi del fascicolo — Immobiliare Giancani', 'explain_points');
     } else {
+      if (welEl) welEl.classList.remove('visible');
       currentIdx = 0;
       window.selectSellerTopic(0, !fromAutoLoop ? false : false);
     }
   };
 
+  window.chooseSellerPath = function(targetMode) {
+    unlockSellerMasterAudio();
+    window.switchSellerTab(targetMode === 'servizi' ? 'servizi' : (targetMode === 'checklist' ? 'checklist' : 'documenti'), false);
+  };
+
   window.stepSellerTopic = function(delta) {
-    if (currentMode === 'checklist') {
-      window.switchSellerTab('documenti');
+    if (currentMode === 'benvenuto' || currentMode === 'checklist') {
+      window.switchSellerTab(currentMode === 'benvenuto' ? 'servizi' : 'documenti');
       return;
     }
     window.selectSellerTopic(currentIdx + delta, true);
   };
 
   window.nextTopicOnAvatarClick = function() {
+    if (currentMode === 'benvenuto') {
+      window.chooseSellerPath('servizi');
+      return;
+    }
     window.stepSellerTopic(1);
   };
 
@@ -619,7 +689,9 @@
     const btn = document.getElementById('seller-audio-btn');
     if (btn) { btn.textContent = '🔊 VOCE ATTIVA'; btn.classList.remove('muted'); }
     unlockSellerMasterAudio();
-    if (currentMode === 'checklist') {
+    if (currentMode === 'benvenuto') {
+      speakSellerText(WELCOME_DATA.speech, 'welcome_open');
+    } else if (currentMode === 'checklist') {
       speakSellerText('Voce attiva! Ecco la Checklist Interattiva: seleziona i documenti che hai già disponibili e al resto pensiamo noi — Immobiliare Giancani', 'explain_points');
     } else {
       window.selectSellerTopic(currentIdx, true);
@@ -636,7 +708,8 @@
     } else {
       unlockSellerMasterAudio();
       if (btn) { btn.textContent = '🔊 VOCE ATTIVA'; btn.classList.remove('muted'); }
-      if (currentMode !== 'checklist') window.selectSellerTopic(currentIdx, false);
+      if (currentMode === 'benvenuto') speakSellerText(WELCOME_DATA.speech, 'welcome_open');
+      else if (currentMode !== 'checklist') window.selectSellerTopic(currentIdx, false);
     }
   };
 
@@ -678,6 +751,20 @@
       ['documenti', 'servizi', 'checklist'].forEach(m => document.getElementById('tab-btn-' + m)?.classList.toggle('active', m === 'servizi'));
       window.selectSellerTopic(0, true);
       speakSellerText('Effettuiamo un sopralluogo gratuito per stimare con precisione i metri quadri e il più alto valore reale di mercato del tuo immobile a Favara e provincia. Chiamaci al 3201667156 — Immobiliare Giancani', 'arms_raised');
+    } else if (q.includes('unicredit') || q.includes('subito') || q.includes('cookie')) {
+      currentMode = 'servizi';
+      window.selectSellerTopic(4, true);
+    } else if (q.includes('portali') || q.includes('europ') || q.includes('mond') || q.includes('estero')) {
+      currentMode = 'servizi';
+      window.selectSellerTopic(3, true);
+    } else if (q.includes('tour') || q.includes('360') || q.includes('foto') || q.includes('cartell')) {
+      currentMode = 'servizi';
+      window.selectSellerTopic(1, true);
+    } else if (q.includes('report') || q.includes('sede') || q.includes('telefon') || q.includes('orari')) {
+      currentMode = 'servizi';
+      window.selectSellerTopic(5, true);
+    } else if (q.includes('chi siete') || q.includes('ciao') || q.includes('benvenut')) {
+      window.switchSellerTab('benvenuto');
     } else if (q.includes('serviz') || q.includes('agenzi') || q.includes('cosa fate') || q.includes('pubblic')) {
       window.switchSellerTab('servizi');
     } else {
@@ -687,18 +774,20 @@
 
   // Espone snapshot read-only utile per verifica sincronizzazione tra 16:9 e 9:16
   window.VENDITORI_SHARED_CORE = {
-    version: '2026.11.27-unified',
+    version: '2026.11.27-welcome-v2',
     variant: VIEW_CFG.variant,
     documentCount: DOCUMENTI_VENDITA.length,
-    serviceCount: SERVIZI_GIANCANI.length
+    serviceCount: SERVIZI_GIANCANI.length,
+    portaliStruttura: PORTALI_IMMOBILIARI_LISTA
   };
 
   function unlockOnInteraction(ev) {
     const wasUnlocked = sellerAudioUnlocked;
     unlockSellerMasterAudio();
-    const isControlClick = !!(ev && ev.target && ev.target.closest && ev.target.closest('#seller-audio-btn, .topic-chip, .nav-round-btn, .mode-tab-btn, #seller-audio-unlock-pill'));
-    if (!wasUnlocked && !isControlClick && !isSpeaking && !audioMuted && currentMode !== 'checklist') {
-      window.selectSellerTopic(currentIdx, false);
+    const isControlClick = !!(ev && ev.target && ev.target.closest && ev.target.closest('#seller-audio-btn, .topic-chip, .nav-round-btn, .mode-tab-btn, #seller-audio-unlock-pill, .welcome-choice-card'));
+    if (!wasUnlocked && !isControlClick && !isSpeaking && !audioMuted) {
+      if (currentMode === 'benvenuto') speakSellerText(WELCOME_DATA.speech, 'welcome_open');
+      else if (currentMode !== 'checklist') window.selectSellerTopic(currentIdx, false);
     }
   }
   document.addEventListener('click', unlockOnInteraction, { capture: true, passive: true });
@@ -779,7 +868,7 @@
   function bootSellerBroadcast() {
     initSellerAvatar();
     renderChecklist();
-    window.selectSellerTopic(0, false);
+    window.switchSellerTab('benvenuto', false);
   }
 
   if (document.readyState === 'loading') {

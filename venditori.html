@@ -581,6 +581,98 @@
       pointer-events: auto;
       cursor: pointer;
       filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.65));
+      transition: all 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body.mode-welcome .seller-main-stage {
+      right: clamp(340px, 31vw, 430px);
+    }
+    body.mode-welcome #seller-antonio-stage {
+      height: min(81vh, 610px);
+      max-height: calc(100vh - 108px);
+      right: clamp(24px, 4.5vw, 78px);
+      bottom: 10px;
+      z-index: 50;
+      filter: drop-shadow(0 16px 38px rgba(0, 0, 0, 0.80));
+    }
+
+    .welcome-stage {
+      display: none;
+      flex-direction: column;
+      gap: 13px;
+    }
+    .welcome-stage.visible { display: flex; }
+    .welcome-intro-text {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      max-width: 92%;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+    }
+    .welcome-question-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      align-self: flex-start;
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fef08a;
+      background: linear-gradient(90deg, rgba(250, 204, 21, 0.24), rgba(250, 204, 21, 0.06));
+    }
+    .welcome-choices-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .welcome-choice-card {
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      padding: 16px 18px;
+      border-radius: 18px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .welcome-choice-card.servizi-path {
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.34), rgba(15, 23, 42, 0.72));
+    }
+    .welcome-choice-card.documenti-path {
+      background: linear-gradient(145deg, rgba(14, 165, 233, 0.34), rgba(15, 23, 42, 0.72));
+    }
+    .welcome-choice-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 34px var(--accent-glow);
+    }
+    .wc-tag {
+      font-size: 10.5px;
+      font-weight: 900;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+    }
+    .wc-title {
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.22;
+      color: #ffffff;
+    }
+    .wc-desc {
+      font-size: 12px;
+      line-height: 1.45;
+      color: #e2e8f0;
+    }
+    .wc-cta {
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fde047;
     }
 
     #seller-antonio-canvas {
@@ -643,12 +735,13 @@
     </div>
 
     <div class="top-mode-tabs">
-      <button type="button" class="mode-tab-btn active" id="tab-btn-documenti" onclick="switchSellerTab('documenti')">📑 Documenti Vendita (7)</button>
-      <button type="button" class="mode-tab-btn" id="tab-btn-servizi" onclick="switchSellerTab('servizi')">🏆 Servizi Agenzia (6)</button>
-      <button type="button" class="mode-tab-btn" id="tab-btn-checklist" onclick="switchSellerTab('checklist')">✅ Checklist Prontezza</button>
-      <a href="orizzontale.html" class="mode-tab-btn">🏠 Diretta Case 16:9</a>
-      <a href="verticale.html" class="mode-tab-btn">📱 Diretta 9:16</a>
-      <a href="venditoriVistaVerticale.html" class="mode-tab-btn">📱 Vista 9:16</a>
+      <button type="button" class="mode-tab-btn active" id="tab-btn-benvenuto" onclick="switchSellerTab('benvenuto')">👋 Benvenuto</button>
+      <button type="button" class="mode-tab-btn" id="tab-btn-documenti" onclick="switchSellerTab('documenti')">📑 Documenti (7)</button>
+      <button type="button" class="mode-tab-btn" id="tab-btn-servizi" onclick="switchSellerTab('servizi')">🏆 Servizi (7)</button>
+      <button type="button" class="mode-tab-btn" id="tab-btn-checklist" onclick="switchSellerTab('checklist')">✅ Checklist</button>
+      <a href="orizzontale.html" class="mode-tab-btn">🏠 Case 16:9</a>
+      <a href="verticale.html" class="mode-tab-btn">📱 Case 9:16</a>
+      <a href="venditoriVistaVerticale.html" class="mode-tab-btn">📲 Vista 9:16</a>
       <button type="button" class="audio-pill-btn" id="seller-audio-btn" onclick="toggleSellerAudio()">🔊 VOCE ATTIVA</button>
     </div>
   </header>
@@ -667,7 +760,31 @@
     <div class="topic-strip" id="seller-topic-strip"></div>
 
     <section class="seller-feature-panel" id="seller-card-view">
-      <div id="standard-topic-content" style="display:flex; flex-direction:column; gap:12px;">
+      <!-- 👋 SCHERMATA BENVENUTO CON ANTONIO IN PRIMO PIANO E DOPPIA SCELTA -->
+      <div class="welcome-stage visible" id="seller-welcome-stage">
+        <div class="panel-kicker">👋 BENVENUTO DA IMMOBILIARE GIANCANI • CORSO VITTORIO VENETO 151, FAVARA</div>
+        <h1 class="panel-headline">Ciao! Sono Antonio Giancani. Vuoi vendere casa al meglio e in totale sicurezza?</h1>
+        <p class="welcome-intro-text">
+          Siamo l’Agenzia Immobiliare Giancani (www.immobiliaregiancani.it • Tel. 320 166 7156 / 328 256 0707): ti affianchiamo con trasparenza, foto e Virtual Tour 360°, Diretta TV 24H, pubblicità sui portali italiani, europei e mondiali e partnership UniCredit SubitoCasa fino al Rogito Notarile.
+        </p>
+        <div class="welcome-question-badge">🎙️ Antonio ti chiede: cosa vuoi scoprire adesso per il tuo immobile?</div>
+        <div class="welcome-choices-grid">
+          <button type="button" class="welcome-choice-card servizi-path" id="btn-choice-servizi" onclick="chooseSellerPath('servizi')">
+            <span class="wc-tag">SCELTA 1 • COSA FACCIAMO PER VOI</span>
+            <span class="wc-title">🏆 Scopri cosa fa Immobiliare Giancani per te e la tua casa</span>
+            <span class="wc-desc">Controllo documenti, stima metri quadri, foto esclusive, Tour 360°, social, portali Italia/Europa/Mondo, UniCredit SubitoCasa, report visite e rogito.</span>
+            <span class="wc-cta">👉 Scopri i 7 Servizi Esclusivi</span>
+          </button>
+          <button type="button" class="welcome-choice-card documenti-path" id="btn-choice-documenti" onclick="chooseSellerPath('documenti')">
+            <span class="wc-tag">SCELTA 2 • COSA PORTARE PER VENDERE</span>
+            <span class="wc-title">📑 Scopri tutti i documenti richiesti per mettere in vendita l’immobile</span>
+            <span class="wc-desc">Atto di provenienza, Catasto, Sanatoria/Agibilità, APE, Stato Civile, Mutuo/Condominio e Incarico, con esempi reali senza dati sensibili.</span>
+            <span class="wc-cta">👉 Vedi i 7 Documenti &amp; Fac-Simile</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="standard-topic-content" style="display:none; flex-direction:column; gap:12px;">
         <div class="panel-kicker" id="card-kicker">📑 DOCUMENTO 1 DI 7 • GUIDA PER IL PROPRIETARIO</div>
         <h1 class="panel-headline" id="card-title">Atto di Provenienza dell'Immobile</h1>
 
